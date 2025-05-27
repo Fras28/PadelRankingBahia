@@ -801,8 +801,14 @@ function App() {
 
       {/* Modal de Fixture */}
       {selectedTournamentForFixture && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 animate-fade-in">
-          <div className={`${theme.modalBg} rounded-xl shadow-2xl p-6 w-full max-w-5xl max-h-[90vh] overflow-y-auto relative border-4 ${theme.modalBorder} transform scale-95 animate-scale-in`}>
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 animate-fade-in"
+          onClick={() => setSelectedTournamentForFixture(null)} // Cierra al clicar fuera
+        >
+          <div 
+            className={`${theme.modalBg} rounded-xl shadow-2xl p-6 w-full max-w-5xl max-h-[90vh] overflow-y-auto relative border-4 ${theme.modalBorder} transform scale-95 animate-scale-in`}
+            onClick={(e) => e.stopPropagation()} // Evita que el clic dentro cierre el modal
+          >
             <button
               className={`absolute top-4 right-4 ${theme.modalCloseButtonColor} hover:text-opacity-70 text-3xl font-bold transition-transform duration-200 hover:rotate-90`}
               onClick={() => setSelectedTournamentForFixture(null)}
@@ -868,8 +874,14 @@ function App() {
 
       {/* Modal de Estadísticas del Jugador */}
       {selectedPlayerForStats && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 animate-fade-in">
-          <div className={`${theme.modalBg} rounded-xl shadow-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto relative border-4 ${theme.modalBorder} transform scale-95 animate-scale-in`}>
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 animate-fade-in"
+          onClick={() => setSelectedPlayerForStats(null)} // Cierra al clicar fuera
+        >
+          <div 
+            className={`${theme.modalBg} rounded-xl shadow-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto relative border-4 ${theme.modalBorder} transform scale-95 animate-scale-in`}
+            onClick={(e) => e.stopPropagation()} // Evita que el clic dentro cierre el modal
+          >
             <button
               className={`absolute top-4 right-4 ${theme.modalCloseButtonColor} hover:text-opacity-70 text-3xl font-bold transition-transform duration-200 hover:rotate-90`}
               onClick={() => setSelectedPlayerForStats(null)}
