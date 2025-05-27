@@ -1,6 +1,14 @@
 import React from 'react';
 
 // --- Interfaces para tipar los datos (copiadas de App.tsx para auto-contención) ---
+// En un proyecto real, estas interfaces estarían en un archivo de tipos compartido (ej. src/types.ts)
+interface IEstadisticas {
+  partidosJugados?: number;
+  partidosGanados?: number;
+  torneosJugados?: number;
+  torneosGanados?: number;
+}
+
 interface IJugador {
   id?: number;
   nombre: string;
@@ -11,15 +19,8 @@ interface IJugador {
   rankingGeneral?: number;
   estadisticas?: IEstadisticas;
   historialRanking?: any;
-  club?: { id: number; nombre: string; }; // Simplificado para la demo
-  categoriaPrincipal?: { id: number; nombre: string; }; // Simplificado para la demo
-}
-
-interface IEstadisticas {
-  partidosJugados?: number;
-  partidosGanados?: number;
-  torneosJugados?: number;
-  torneosGanados?: number;
+  club?: { id: number; nombre: string; };
+  categoriaPrincipal?: { id: number; nombre: string; };
 }
 
 // --- Componente PlayerStatisticsCard ---

@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
-import PlayerStatisticsCard from './components/PlayerStatisticsCard';
 
 // Asegúrate de que Tailwind CSS esté configurado en tu entorno de desarrollo.
 // Para una demo rápida, puedes añadir el CDN de Tailwind en tu index.html:
 // <script src="https://cdn.tailwindcss.com"></script>
 
-// Importa el nuevo componente de estadísticas
+// Importa el componente de estadísticas
 // Asegúrate de que la ruta sea correcta según donde guardes PlayerStatisticsCard.tsx
-
+import PlayerStatisticsCard from './components/PlayerStatisticsCard'; 
 
 // --- Interfaces para tipar los datos ---
+// Estas interfaces deben ser consistentes con los datos que recibes de Strapi
+// y con los datos mock que usas.
+interface IEstadisticas {
+  partidosJugados?: number;
+  partidosGanados?: number;
+  torneosJugados?: number;
+  torneosGanados?: number;
+}
+
 interface IJugador {
   id?: number;
   nombre: string;
@@ -24,19 +32,12 @@ interface IJugador {
   categoriaPrincipal?: { id: number; nombre: string; }; // Simplificado para la demo
 }
 
-interface IEstadisticas {
-  partidosJugados?: number;
-  partidosGanados?: number;
-  torneosJugados?: number;
-  torneosGanados?: number;
-}
-
 interface IPareja {
   id?: number;
   // Estos campos (nombre, apellido) se añaden directamente a IPareja
   // para simplificar la creación de datos mock para el fixture en la demo.
   // En un sistema real, la pareja tendría un nombre y los jugadores individuales
-  // se referirían a IJugador.
+  // se referirían a IJugador (ej. jugador1: IJugador, jugador2: IJugador).
   nombre: string;
   apellido: string;
   
@@ -83,7 +84,7 @@ interface IClub {
 }
 
 interface IEntradaRanking {
-  jugador: IJugador;
+  jugador: IJugador; // Ahora es un objeto IJugador completo
   puntos: number;
   posicion: number;
 }
@@ -94,7 +95,7 @@ interface ICategoryRanking {
 }
 
 interface IGlobalRankingEntry {
-  jugador: IJugador;
+  jugador: IJugador; // Ahora es un objeto IJugador completo
   puntosGlobales: number;
   posicionGlobal: number;
 }
@@ -106,7 +107,9 @@ interface ISponsor {
   link: string;
 }
 
+
 // --- Datos de Ejemplo (Mock Data) ---
+// Estos datos son cruciales para la demo y deben ser consistentes con las interfaces.
 const mockClubs: IClub[] = [
   {
     id: 1,
@@ -126,6 +129,96 @@ const mockClubs: IClub[] = [
   },
 ];
 
+// Datos de Jugadores completos para mockear las relaciones
+const mockPlayersData: IJugador[] = [
+  {
+    id: 1,
+    nombre: 'Juan',
+    apellido: 'Pérez',
+    rankingGeneral: 2,
+    estadisticas: { partidosJugados: 280, partidosGanados: 200, torneosJugados: 25, torneosGanados: 8 },
+    club: { id: 1, nombre: 'Pádel Club Central' },
+    categoriaPrincipal: { id: 1, nombre: '1ra' },
+  },
+  {
+    id: 2,
+    nombre: 'Ana',
+    apellido: 'García',
+    rankingGeneral: 4,
+    estadisticas: { partidosJugados: 220, partidosGanados: 150, torneosJugados: 20, torneosGanados: 5 },
+    club: { id: 1, nombre: 'Pádel Club Central' },
+    categoriaPrincipal: { id: 1, nombre: '1ra' },
+  },
+  {
+    id: 3,
+    nombre: 'Carlos',
+    apellido: 'Ruiz',
+    rankingGeneral: 5,
+    estadisticas: { partidosJugados: 180, partidosGanados: 100, torneosJugados: 18, torneosGanados: 2 },
+    club: { id: 1, nombre: 'Pádel Club Central' },
+    categoriaPrincipal: { id: 2, nombre: '2da' },
+  },
+  {
+    id: 4,
+    nombre: 'Marta',
+    apellido: 'López',
+    rankingGeneral: 8,
+    estadisticas: { partidosJugados: 150, partidosGanados: 80, torneosJugados: 12, torneosGanados: 1 },
+    club: { id: 1, nombre: 'Pádel Club Central' },
+    categoriaPrincipal: { id: 2, nombre: '2da' },
+  },
+  {
+    id: 5,
+    nombre: 'Equipo',
+    apellido: '1', // Para los mocks de equipos
+    rankingGeneral: 10,
+    estadisticas: { partidosJugados: 70, partidosGanados: 50, torneosJugados: 8, torneosGanados: 0 },
+    club: { id: 1, nombre: 'Pádel Club Central' },
+    categoriaPrincipal: { id: 3, nombre: '3ra' },
+  },
+  {
+    id: 6,
+    nombre: 'Equipo',
+    apellido: '3', // Para los mocks de equipos
+    rankingGeneral: 15,
+    estadisticas: { partidosJugados: 60, partidosGanados: 40, torneosJugados: 7, torneosGanados: 0 },
+    club: { id: 1, nombre: 'Pádel Club Central' },
+    categoriaPrincipal: { id: 3, nombre: '3ra' },
+  },
+  {
+    id: 7,
+    nombre: 'Pedro',
+    apellido: 'Martínez',
+    rankingGeneral: 1,
+    estadisticas: { partidosJugados: 300, partidosGanados: 250, torneosJugados: 30, torneosGanados: 10 },
+    club: { id: 2, nombre: 'Club Raqueta Express' },
+    categoriaPrincipal: { id: 4, nombre: 'A' },
+  },
+  {
+    id: 8,
+    nombre: 'Laura',
+    apellido: 'Fernández',
+    rankingGeneral: 3,
+    estadisticas: { partidosJugados: 280, partidosGanados: 200, torneosJugados: 28, torneosGanados: 7 },
+    club: { id: 2, nombre: 'Club Raqueta Express' },
+    categoriaPrincipal: { id: 4, nombre: 'A' },
+  },
+  // Jugadores para fixture, para que no tengan id duplicado con los de arriba
+  { id: 9, nombre: 'Pedro', apellido: 'Gómez', estadisticas: {partidosJugados: 10, partidosGanados: 5}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 10, nombre: 'Marta', apellido: 'López', estadisticas: {partidosJugados: 12, partidosGanados: 6}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 11, nombre: 'Diego', apellido: 'Silva', estadisticas: {partidosJugados: 8, partidosGanados: 3}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 12, nombre: 'Sofía', apellido: 'Rojas', estadisticas: {partidosJugados: 15, partidosGanados: 9}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 13, nombre: 'Andrés', apellido: 'Castro', estadisticas: {partidosJugados: 20, partidosGanados: 12}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 14, nombre: 'Lucía', apellido: 'Díaz', estadisticas: {partidosJugados: 18, partidosGanados: 10}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 15, nombre: 'Martín', apellido: 'Vargas', estadisticas: {partidosJugados: 25, partidosGanados: 18}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 16, nombre: 'Paula', apellido: 'Herrera', estadisticas: {partidosJugados: 22, partidosGanados: 15}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 17, nombre: 'Javier', apellido: 'Soto', estadisticas: {partidosJugados: 30, partidosGanados: 20}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 18, nombre: 'Valeria', apellido: 'Paz', estadisticas: {partidosJugados: 28, partidosGanados: 19}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 19, nombre: 'Ricardo', apellido: 'Blanco', estadisticas: {partidosJugados: 35, partidosGanados: 25}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 20, nombre: 'Florencia', apellido: 'Moreno', estadisticas: {partidosJugados: 32, partidosGanados: 22}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+];
+
+
 const mockTournaments: { [key: number]: ITorneo[] } = {
   1: [
     {
@@ -138,18 +231,18 @@ const mockTournaments: { [key: number]: ITorneo[] } = {
       maxParejas: 16,
       fixture: {
         octavos: [
-          { id: 1, pareja1: { nombre: 'Juan', apellido: 'Pérez' }, pareja2: { nombre: 'Pedro', apellido: 'Gómez' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 2, pareja1: { nombre: 'Ana', apellido: 'García' }, pareja2: { nombre: 'Marta', apellido: 'López' }, resultado: '6-3, 6-4', ganador: { nombre: 'Ana', apellido: 'García' }, estado: 'Finalizado' },
-          { id: 3, pareja1: { nombre: 'Carlos', apellido: 'Ruiz' }, pareja2: { nombre: 'Laura', apellido: 'Fernández' }, resultado: null, ganador: null, estado: 'En Curso' },
-          { id: 4, pareja1: { nombre: 'Diego', apellido: 'Silva' }, pareja2: { nombre: 'Sofía', apellido: 'Rojas' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 5, pareja1: { nombre: 'Andrés', apellido: 'Castro' }, pareja2: { nombre: 'Lucía', apellido: 'Díaz' }, resultado: '7-5, 6-2', ganador: { nombre: 'Andrés', apellido: 'Castro' }, estado: 'Finalizado' },
-          { id: 6, pareja1: { nombre: 'Martín', apellido: 'Vargas' }, pareja2: { nombre: 'Paula', apellido: 'Herrera' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 7, pareja1: { nombre: 'Javier', apellido: 'Soto' }, pareja2: { nombre: 'Valeria', apellido: 'Paz' }, resultado: '6-1, 6-0', ganador: { nombre: 'Javier', apellido: 'Soto' }, estado: 'Finalizado' },
-          { id: 8, pareja1: { nombre: 'Ricardo', apellido: 'Blanco' }, pareja2: { nombre: 'Florencia', apellido: 'Moreno' }, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 1, pareja1: mockPlayersData[0], pareja2: mockPlayersData[8], resultado: null, ganador: null, estado: 'Programado' },
+          { id: 2, pareja1: mockPlayersData[1], pareja2: mockPlayersData[9], resultado: '6-3, 6-4', ganador: mockPlayersData[1], estado: 'Finalizado' },
+          { id: 3, pareja1: mockPlayersData[2], pareja2: mockPlayersData[10], resultado: null, ganador: null, estado: 'En Curso' },
+          { id: 4, pareja1: mockPlayersData[3], pareja2: mockPlayersData[11], resultado: null, ganador: null, estado: 'Programado' },
+          { id: 5, pareja1: mockPlayersData[12], pareja2: mockPlayersData[13], resultado: '7-5, 6-2', ganador: mockPlayersData[12], estado: 'Finalizado' },
+          { id: 6, pareja1: mockPlayersData[14], pareja2: mockPlayersData[15], resultado: null, ganador: null, estado: 'Programado' },
+          { id: 7, pareja1: mockPlayersData[16], pareja2: mockPlayersData[17], resultado: '6-1, 6-0', ganador: mockPlayersData[16], estado: 'Finalizado' },
+          { id: 8, pareja1: mockPlayersData[18], pareja2: mockPlayersData[19], resultado: null, ganador: null, estado: 'Programado' },
         ],
         cuartos: [
-          { id: 9, pareja1: { nombre: 'Ana', apellido: 'García' }, pareja2: { nombre: 'Andrés', apellido: 'Castro' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 10, pareja1: { nombre: 'Javier', apellido: 'Soto' }, pareja2: { nombre: 'Carlos', apellido: 'Ruiz' }, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 9, pareja1: mockPlayersData[1], pareja2: mockPlayersData[12], resultado: null, ganador: null, estado: 'Programado' },
+          { id: 10, pareja1: mockPlayersData[16], pareja2: mockPlayersData[2], resultado: null, ganador: null, estado: 'Programado' },
         ],
         semifinales: [],
         final: [],
@@ -218,87 +311,27 @@ const mockTournaments: { [key: number]: ITorneo[] } = {
 
 const mockCategoryRankings: { [key: number]: ICategoryRanking[] } = {
   1: [
-    { categoria: { nombre: '1ra' }, entradasRanking: [{ jugador: { nombre: 'Juan', apellido: 'Pérez' }, puntos: 1500, posicion: 1 }, { jugador: { nombre: 'Ana', apellido: 'García' }, puntos: 1200, posicion: 2 }] },
-    { categoria: { nombre: '2da' }, entradasRanking: [{ jugador: { nombre: 'Carlos', apellido: 'Ruiz' }, puntos: 900, posicion: 1 }, { jugador: { nombre: 'Marta', apellido: 'López' }, puntos: 750, posicion: 2 }] },
-    { categoria: { nombre: '3ra' }, entradasRanking: [{ jugador: { nombre: 'Equipo', apellido: '1' }, puntos: 600, posicion: 1 }, { jugador: { nombre: 'Equipo', apellido: '3' }, puntos: 550, posicion: 2 }] },
+    { categoria: { nombre: '1ra' }, entradasRanking: [{ jugador: mockPlayersData[0], puntos: 1500, posicion: 1 }, { jugador: mockPlayersData[1], puntos: 1200, posicion: 2 }] },
+    { categoria: { nombre: '2da' }, entradasRanking: [{ jugador: mockPlayersData[2], puntos: 900, posicion: 1 }, { jugador: mockPlayersData[3], puntos: 750, posicion: 2 }] },
+    { categoria: { nombre: '3ra' }, entradasRanking: [{ jugador: mockPlayersData[4], puntos: 600, posicion: 1 }, { jugador: mockPlayersData[5], puntos: 550, posicion: 2 }] },
   ],
   2: [
-    { categoria: { nombre: 'A' }, entradasRanking: [{ jugador: { nombre: 'Pedro', apellido: 'Martínez' }, puntos: 1600, posicion: 1 }, { jugador: { nombre: 'Laura', apellido: 'Fernández' }, puntos: 1400, posicion: 2 }] },
+    { categoria: { nombre: 'A' }, entradasRanking: [{ jugador: mockPlayersData[6], puntos: 1600, posicion: 1 }, { jugador: mockPlayersData[7], puntos: 1400, posicion: 2 }] },
   ],
 };
 
 const mockGlobalRanking: IGlobalRankingEntry[] = [
-  { jugador: { nombre: 'Pedro', apellido: 'Martínez' }, puntosGlobales: 3000, posicionGlobal: 1 },
-  { jugador: { nombre: 'Juan', apellido: 'Pérez' }, puntosGlobales: 2800, posicionGlobal: 2 },
-  { jugador: { nombre: 'Laura', apellido: 'Fernández' }, puntosGlobales: 2500, posicionGlobal: 3 },
-  { jugador: { nombre: 'Ana', apellido: 'García' }, puntosGlobales: 2200, posicionGlobal: 4 },
-  { jugador: { nombre: 'Carlos', apellido: 'Ruiz' }, puntosGlobales: 1800, posicionGlobal: 5 },
+  { jugador: mockPlayersData[6], puntosGlobales: 3000, posicionGlobal: 1 }, // Pedro Martínez
+  { jugador: mockPlayersData[0], puntosGlobales: 2800, posicionGlobal: 2 }, // Juan Pérez
+  { jugador: mockPlayersData[7], puntosGlobales: 2500, posicionGlobal: 3 }, // Laura Fernández
+  { jugador: mockPlayersData[1], puntosGlobales: 2200, posicionGlobal: 4 }, // Ana García
+  { jugador: mockPlayersData[2], puntosGlobales: 1800, posicionGlobal: 5 }, // Carlos Ruiz
 ];
 
 const mockSponsors: ISponsor[] = [
   { id: 1, nombre: 'Pádel Pro', logoUrl: 'https://placehold.co/100x50/dc2626/ffffff?text=PadelPro', link: 'https://www.padelpro.com' },
   { id: 2, nombre: 'Raqueta Plus', logoUrl: 'https://placehold.co/100x50/f59e0b/ffffff?text=RaquetaPlus', link: 'https://www.raquetaplus.com' },
   { id: 3, nombre: 'Deportes Total', logoUrl: 'https://placehold.co/100x50/ffffff/dc2626?text=DeportesTotal', link: 'https://www.deportestotal.com' },
-];
-
-// --- Datos de Jugadores para la nueva pestaña ---
-const mockPlayersData: IJugador[] = [
-  {
-    id: 1,
-    nombre: 'Martina',
-    apellido: 'Gómez',
-    rankingGeneral: 5,
-    estadisticas: {
-      partidosJugados: 120,
-      partidosGanados: 85,
-      torneosJugados: 15,
-      torneosGanados: 3,
-    },
-    club: { id: 10, nombre: 'Club La Raqueta' },
-    categoriaPrincipal: { id: 1, nombre: '1ra' },
-  },
-  {
-    id: 2,
-    nombre: 'Lucas',
-    apellido: 'Fernández',
-    rankingGeneral: 12,
-    estadisticas: {
-      partidosJugados: 50,
-      partidosGanados: 20,
-      torneosJugados: 5,
-      torneosGanados: 0,
-    },
-    club: { id: 10, nombre: 'Club La Raqueta' },
-    categoriaPrincipal: { id: 2, nombre: '2da' },
-  },
-  {
-    id: 3,
-    nombre: 'Sofía',
-    apellido: 'Ramírez',
-    rankingGeneral: 8,
-    estadisticas: {
-      partidosJugados: 80,
-      partidosGanados: 60,
-      torneosJugados: 10,
-      torneosGanados: 1,
-    },
-    club: { id: 1, nombre: 'Pádel Club Central' },
-    categoriaPrincipal: { id: 1, nombre: '1ra' },
-  },
-  {
-    id: 4,
-    nombre: 'Diego',
-    apellido: 'Silva',
-    rankingGeneral: 20,
-    estadisticas: {
-      partidosJugados: 30,
-      partidosGanados: 10,
-      torneosJugados: 3,
-      torneosGanados: 0,
-    },
-    club: { id: 2, nombre: 'Club Raqueta Express' },
-    categoriaPrincipal: { id: 3, nombre: '3ra' },
-  },
 ];
 
 
@@ -494,9 +527,10 @@ const themes = {
 
 function App() {
   const [selectedClubId, setSelectedClubId] = useState<number | null>(mockClubs[0].id);
-  const [activeTab, setActiveTab] = useState<'torneos' | 'rankingInterno' | 'rankingGlobal' | 'jugadores'>('torneos'); // Nueva pestaña 'jugadores'
+  const [activeTab, setActiveTab] = useState<'torneos' | 'rankingInterno' | 'rankingGlobal' | 'jugadores'>('torneos');
   const [selectedTournamentForFixture, setSelectedTournamentForFixture] = useState<ITorneo | null>(null);
-  const [currentTheme, setCurrentTheme] = useState<'classic' | 'impactful' | 'middle'>('middle'); // Tema por defecto: middle
+  const [selectedPlayerForStats, setSelectedPlayerForStats] = useState<IJugador | null>(null); // Nuevo estado para jugador seleccionado
+  const [currentTheme, setCurrentTheme] = useState<'classic' | 'impactful' | 'middle'>('middle');
 
   const selectedClub = mockClubs.find(club => club.id === selectedClubId);
   const clubTournaments = selectedClubId ? mockTournaments[selectedClubId] || [] : [];
@@ -507,6 +541,11 @@ function App() {
   ];
 
   const theme = themes[currentTheme];
+
+  // Función para manejar el clic en un jugador del ranking
+  const handlePlayerClick = (player: IJugador) => {
+    setSelectedPlayerForStats(player);
+  };
 
   return (
     <div className={`min-h-screen font-sans p-4 sm:p-6 lg:p-8 transition-colors duration-500 ${theme.bodyBg} ${theme.tableTextColor}`}>
@@ -547,6 +586,7 @@ function App() {
             onChange={(e) => {
               setSelectedClubId(Number(e.target.value));
               setSelectedTournamentForFixture(null);
+              setSelectedPlayerForStats(null); // Reset player stats view
             }}
           >
             {mockClubs.map(club => (
@@ -560,7 +600,7 @@ function App() {
 
       {/* Sección de Sponsors */}
       <section className={`${theme.sponsorSectionBg} shadow-lg rounded-xl p-4 mb-8 border-b-2 ${theme.sponsorSectionBorder}`}>
-        <h2 className={`text-xl font-bold ${theme.sponsorTitleColor} mb-4 text-center`}>ALIADOS ESTRATÉGICOS</h2>
+        <h2 className="text-xl font-bold mb-4 text-center" style={{ color: theme.sponsorTitleColor }}>ALIADOS ESTRATÉGICOS</h2>
         <div className="flex flex-wrap justify-center items-center gap-6">
           {mockSponsors.map(sponsor => (
             <a key={sponsor.id} href={sponsor.link} target="_blank" rel="noopener noreferrer" className="block transform transition-transform duration-200 hover:scale-110">
@@ -594,6 +634,7 @@ function App() {
           onClick={() => {
             setActiveTab('torneos');
             setSelectedTournamentForFixture(null);
+            setSelectedPlayerForStats(null);
           }}
         >
           CAMPEONATOS
@@ -603,6 +644,7 @@ function App() {
           onClick={() => {
             setActiveTab('rankingInterno');
             setSelectedTournamentForFixture(null);
+            setSelectedPlayerForStats(null);
           }}
         >
           RANKING INTERNO
@@ -612,6 +654,7 @@ function App() {
           onClick={() => {
             setActiveTab('rankingGlobal');
             setSelectedTournamentForFixture(null);
+            setSelectedPlayerForStats(null);
           }}
         >
           RANKING GLOBAL
@@ -621,6 +664,7 @@ function App() {
           onClick={() => {
             setActiveTab('jugadores');
             setSelectedTournamentForFixture(null);
+            setSelectedPlayerForStats(null);
           }}
         >
           JUGADORES
@@ -685,7 +729,10 @@ function App() {
                         </thead>
                         <tbody>
                           {ranking.entradasRanking.map((entry, index) => (
-                            <tr key={`${entry.jugador.nombre}-${entry.jugador.apellido}`} className={`${index % 2 === 0 ? theme.tableRowEvenBg : theme.tableRowOddBg} border-b ${theme.tableRowBorder} last:border-b-0`}>
+                            <tr key={`${entry.jugador.nombre}-${entry.jugador.apellido}`}
+                                className={`${index % 2 === 0 ? theme.tableRowEvenBg : theme.tableRowOddBg} border-b ${theme.tableRowBorder} last:border-b-0 hover:bg-opacity-75 transition-colors duration-200 cursor-pointer`}
+                                onClick={() => handlePlayerClick(entry.jugador)} // Hacer fila clicable
+                            >
                               <td className={`py-3 px-4 ${theme.tableTextColor}`}>{entry.posicion}</td>
                               <td className={`py-3 px-4 ${theme.tableTextColor}`}>{entry.jugador.nombre} {entry.jugador.apellido}</td>
                               <td className={`py-3 px-4 ${theme.tableAccentColor} font-bold`}>{entry.puntos}</td>
@@ -718,7 +765,10 @@ function App() {
                   </thead>
                   <tbody>
                     {mockGlobalRanking.map((entry, index) => (
-                      <tr key={`${entry.jugador.nombre}-${entry.jugador.apellido}`} className={`${index % 2 === 0 ? theme.tableRowEvenBg : theme.tableRowOddBg} border-b ${theme.tableRowBorder} last:border-b-0`}>
+                      <tr key={`${entry.jugador.nombre}-${entry.jugador.apellido}`}
+                          className={`${index % 2 === 0 ? theme.tableRowEvenBg : theme.tableRowOddBg} border-b ${theme.tableRowBorder} last:border-b-0 hover:bg-opacity-75 transition-colors duration-200 cursor-pointer`}
+                          onClick={() => handlePlayerClick(entry.jugador)} // Hacer fila clicable
+                      >
                         <td className={`py-3 px-4 ${theme.tableTextColor}`}>{entry.posicionGlobal}</td>
                         <td className={`py-3 px-4 ${theme.tableTextColor}`}>{entry.jugador.nombre} {entry.jugador.apellido}</td>
                         <td className={`py-3 px-4 ${theme.tableAccentColor} font-bold`}>{entry.puntosGlobales}</td>
@@ -733,7 +783,7 @@ function App() {
           </section>
         )}
 
-        {activeTab === 'jugadores' && ( // Nueva sección para la pestaña de Jugadores
+        {activeTab === 'jugadores' && (
           <section>
             <h3 className="text-2xl font-bold mb-6 border-b-2 pb-2" style={{ color: theme.sectionTitleColor, borderColor: theme.sectionTitleBorder }}>PERFILES DE JUGADORES</h3>
             {mockPlayersData.length > 0 ? (
@@ -812,6 +862,24 @@ function App() {
             ) : (
               <p className={`${theme.fixtureMatchSubtextColor} text-center py-8`}>¡EL CUADRO DE JUEGO AÚN NO ESTÁ DISPONIBLE PARA ESTE TORNEO!</p>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Estadísticas del Jugador */}
+      {selectedPlayerForStats && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 animate-fade-in">
+          <div className={`${theme.modalBg} rounded-xl shadow-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto relative border-4 ${theme.modalBorder} transform scale-95 animate-scale-in`}>
+            <button
+              className={`absolute top-4 right-4 ${theme.modalCloseButtonColor} hover:text-opacity-70 text-3xl font-bold transition-transform duration-200 hover:rotate-90`}
+              onClick={() => setSelectedPlayerForStats(null)}
+            >
+              &times;
+            </button>
+            <h3 className={`text-2xl font-bold mb-4 border-b-2 ${theme.modalTitleBorder} pb-2`} style={{ color: theme.modalTitleColor }}>
+              ESTADÍSTICAS DE {selectedPlayerForStats.nombre.toUpperCase()} {selectedPlayerForStats.apellido.toUpperCase()}
+            </h3>
+            <PlayerStatisticsCard player={selectedPlayerForStats} />
           </div>
         </div>
       )}
