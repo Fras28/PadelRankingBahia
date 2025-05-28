@@ -4,8 +4,10 @@ module.exports = {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}", // Asegúrate de que esta línea esté presente
   ],
-  theme: {
-    extend: {},
+  extend: {
+    backgroundImage: {
+      'app-bg': "url('./src/assets/BackApp.jpg')",
+    }
   },
   plugins: [],
 }

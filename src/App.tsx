@@ -1,4 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import ADN from './assets/ADN.png'
+import ENA from './assets/ENA.png'
+import Aonken from './assets/Aonken.png'
+import Codimat from './assets/CODIMAT.png'
+import Promar from './assets/promar.png'
+import Bull from './assets/bullpadel.png'
+
 
 // Asegúrate de que Tailwind CSS esté configurado en tu entorno de desarrollo.
 // Para una demo rápida, puedes añadir el CDN de Tailwind en tu index.html:
@@ -28,7 +35,7 @@ interface IJugador {
   rankingGeneral?: number;
   estadisticas?: IEstadisticas;
   historialRanking?: any;
-  club?: { id: number; nombre: string; }; // Simplificado para la demo
+  club?: { id: number; nombre: string; logo?: string }; // Simplificado para la demo, added logo
   categoriaPrincipal?: { id: number; nombre: string; }; // Simplificado para la demo
 }
 
@@ -72,6 +79,7 @@ interface ITorneo {
   categoria: ICategoria[];
   maxParejas?: number;
   fixture?: IFixture;
+  clubId: number; // Added clubId to associate tournament with a club
 }
 
 interface IClub {
@@ -113,17 +121,17 @@ interface ISponsor {
 const mockClubs: IClub[] = [
   {
     id: 1,
-    nombre: 'Pádel Club Central',
+    nombre: 'Padel X3',
     direccion: 'Calle Falsa 123, Ciudad',
-    logo: 'https://placehold.co/60x60/3b82f6/ffffff?text=PCC',
+    logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrtIwvV6zx-Ey8tdb_opAEJruVLj5JedRDhg&s',
     emailContacto: 'info@padelcentral.com',
     telefono: '1122334455'
   },
   {
     id: 2,
-    nombre: 'Club Raqueta Express',
+    nombre: 'Osaka Padel',
     direccion: 'Avenida Siempre Viva 742, Pueblo',
-    logo: 'https://placehold.co/60x60/f59e0b/ffffff?text=CRE',
+    logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeniK7L1PW3EjtLetpqz6LFkqd9GfdLXmp2A&s',
     emailContacto: 'contacto@raquetaexpress.com',
     telefono: '9988776655'
   },
@@ -137,7 +145,7 @@ const mockPlayersData: IJugador[] = [
     apellido: 'Pérez',
     rankingGeneral: 2,
     estadisticas: { partidosJugados: 280, partidosGanados: 200, torneosJugados: 25, torneosGanados: 8 },
-    club: { id: 1, nombre: 'Pádel Club Central' },
+    club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo },
     categoriaPrincipal: { id: 1, nombre: '1ra' },
   },
   {
@@ -146,7 +154,7 @@ const mockPlayersData: IJugador[] = [
     apellido: 'García',
     rankingGeneral: 4,
     estadisticas: { partidosJugados: 220, partidosGanados: 150, torneosJugados: 20, torneosGanados: 5 },
-    club: { id: 1, nombre: 'Pádel Club Central' },
+    club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo },
     categoriaPrincipal: { id: 1, nombre: '1ra' },
   },
   {
@@ -155,7 +163,7 @@ const mockPlayersData: IJugador[] = [
     apellido: 'Ruiz',
     rankingGeneral: 5,
     estadisticas: { partidosJugados: 180, partidosGanados: 100, torneosJugados: 18, torneosGanados: 2 },
-    club: { id: 1, nombre: 'Pádel Club Central' },
+    club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo },
     categoriaPrincipal: { id: 2, nombre: '2da' },
   },
   {
@@ -164,7 +172,7 @@ const mockPlayersData: IJugador[] = [
     apellido: 'López',
     rankingGeneral: 8,
     estadisticas: { partidosJugados: 150, partidosGanados: 80, torneosJugados: 12, torneosGanados: 1 },
-    club: { id: 1, nombre: 'Pádel Club Central' },
+    club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo },
     categoriaPrincipal: { id: 2, nombre: '2da' },
   },
   {
@@ -173,7 +181,7 @@ const mockPlayersData: IJugador[] = [
     apellido: '1', // Para los mocks de equipos
     rankingGeneral: 10,
     estadisticas: { partidosJugados: 70, partidosGanados: 50, torneosJugados: 8, torneosGanados: 0 },
-    club: { id: 1, nombre: 'Pádel Club Central' },
+    club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo },
     categoriaPrincipal: { id: 3, nombre: '3ra' },
   },
   {
@@ -182,7 +190,7 @@ const mockPlayersData: IJugador[] = [
     apellido: '3', // Para los mocks de equipos
     rankingGeneral: 15,
     estadisticas: { partidosJugados: 60, partidosGanados: 40, torneosJugados: 7, torneosGanados: 0 },
-    club: { id: 1, nombre: 'Pádel Club Central' },
+    club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo },
     categoriaPrincipal: { id: 3, nombre: '3ra' },
   },
   {
@@ -191,7 +199,7 @@ const mockPlayersData: IJugador[] = [
     apellido: 'Martínez',
     rankingGeneral: 1,
     estadisticas: { partidosJugados: 300, partidosGanados: 250, torneosJugados: 30, torneosGanados: 10 },
-    club: { id: 2, nombre: 'Club Raqueta Express' },
+    club: { id: 2, nombre: 'Osaka Padel', logo: mockClubs[1].logo },
     categoriaPrincipal: { id: 4, nombre: 'A' },
   },
   {
@@ -200,27 +208,27 @@ const mockPlayersData: IJugador[] = [
     apellido: 'Fernández',
     rankingGeneral: 3,
     estadisticas: { partidosJugados: 280, partidosGanados: 200, torneosJugados: 28, torneosGanados: 7 },
-    club: { id: 2, nombre: 'Club Raqueta Express' },
+    club: { id: 2, nombre: 'Osaka Padel', logo: mockClubs[1].logo },
     categoriaPrincipal: { id: 4, nombre: 'A' },
   },
   // Jugadores para fixture, para que no tengan id duplicado con los de arriba
-  { id: 9, nombre: 'Pedro', apellido: 'Gómez', estadisticas: {partidosJugados: 10, partidosGanados: 5}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
-  { id: 10, nombre: 'Marta', apellido: 'López', estadisticas: {partidosJugados: 12, partidosGanados: 6}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
-  { id: 11, nombre: 'Diego', apellido: 'Silva', estadisticas: {partidosJugados: 8, partidosGanados: 3}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
-  { id: 12, nombre: 'Sofía', apellido: 'Rojas', estadisticas: {partidosJugados: 15, partidosGanados: 9}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
-  { id: 13, nombre: 'Andrés', apellido: 'Castro', estadisticas: {partidosJugados: 20, partidosGanados: 12}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
-  { id: 14, nombre: 'Lucía', apellido: 'Díaz', estadisticas: {partidosJugados: 18, partidosGanados: 10}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
-  { id: 15, nombre: 'Martín', apellido: 'Vargas', estadisticas: {partidosJugados: 25, partidosGanados: 18}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
-  { id: 16, nombre: 'Paula', apellido: 'Herrera', estadisticas: {partidosJugados: 22, partidosGanados: 15}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
-  { id: 17, nombre: 'Javier', apellido: 'Soto', estadisticas: {partidosJugados: 30, partidosGanados: 20}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
-  { id: 18, nombre: 'Valeria', apellido: 'Paz', estadisticas: {partidosJugados: 28, partidosGanados: 19}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
-  { id: 19, nombre: 'Ricardo', apellido: 'Blanco', estadisticas: {partidosJugados: 35, partidosGanados: 25}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
-  { id: 20, nombre: 'Florencia', apellido: 'Moreno', estadisticas: {partidosJugados: 32, partidosGanados: 22}, club: { id: 1, nombre: 'Pádel Club Central' }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 9, nombre: 'Pedro', apellido: 'Gómez', estadisticas: {partidosJugados: 10, partidosGanados: 5}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 10, nombre: 'Marta', apellido: 'López', estadisticas: {partidosJugados: 12, partidosGanados: 6}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 11, nombre: 'Diego', apellido: 'Silva', estadisticas: {partidosJugados: 8, partidosGanados: 3}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 12, nombre: 'Sofía', apellido: 'Rojas', estadisticas: {partidosJugados: 15, partidosGanados: 9}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 13, nombre: 'Andrés', apellido: 'Castro', estadisticas: {partidosJugados: 20, partidosGanados: 12}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 14, nombre: 'Lucía', apellido: 'Díaz', estadisticas: {partidosJugados: 18, partidosGanados: 10}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 15, nombre: 'Martín', apellido: 'Vargas', estadisticas: {partidosJugados: 25, partidosGanados: 18}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 16, nombre: 'Paula', apellido: 'Herrera', estadisticas: {partidosJugados: 22, partidosGanados: 15}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 17, nombre: 'Javier', apellido: 'Soto', estadisticas: {partidosJugados: 30, partidosGanados: 20}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 18, nombre: 'Valeria', apellido: 'Paz', estadisticas: {partidosJugados: 28, partidosGanados: 19}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 19, nombre: 'Ricardo', apellido: 'Blanco', estadisticas: {partidosJugados: 35, partidosGanados: 25}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 20, nombre: 'Florencia', apellido: 'Moreno', estadisticas: {partidosJugados: 32, partidosGanados: 22}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
 ];
 
 
 const mockTournaments: { [key: number]: ITorneo[] } = {
-  1: [
+  1: [ // Club ID 1: Padel X3
     {
       id: 101,
       nombre: 'Torneo de Verano 2024',
@@ -229,6 +237,7 @@ const mockTournaments: { [key: number]: ITorneo[] } = {
       estado: 'En Curso',
       categoria: [{ nombre: '1ra' }],
       maxParejas: 16,
+      clubId: 1, // Explicitly linking to club 1
       fixture: {
         octavos: [
           { id: 1, pareja1: mockPlayersData[0], pareja2: mockPlayersData[8], resultado: null, ganador: null, estado: 'Programado' },
@@ -256,6 +265,7 @@ const mockTournaments: { [key: number]: ITorneo[] } = {
       estado: 'Finalizado',
       categoria: [{ nombre: '2da' }],
       maxParejas: 8,
+      clubId: 1, // Explicitly linking to club 1
       fixture: {
         cuartos: [
           { id: 11, pareja1: { nombre: 'Roberto', apellido: 'Diaz' }, pareja2: { nombre: 'Sofía', apellido: 'Castro' }, resultado: '6-2, 6-1', ganador: { nombre: 'Roberto', apellido: 'Diaz' }, estado: 'Finalizado' },
@@ -280,6 +290,7 @@ const mockTournaments: { [key: number]: ITorneo[] } = {
       estado: 'Abierto',
       categoria: [{ nombre: '3ra' }],
       maxParejas: 25,
+      clubId: 1, // Explicitly linking to club 1
       fixture: {
         treintaidosavos: [
           { id: 20, pareja1: { nombre: 'Equipo', apellido: '1' }, pareja2: { nombre: 'Equipo', apellido: '2' }, resultado: null, ganador: null, estado: 'Programado' },
@@ -304,8 +315,8 @@ const mockTournaments: { [key: number]: ITorneo[] } = {
       }
     }
   ],
-  2: [
-    { id: 201, nombre: 'Abierto de Otoño', fechaInicio: '2024-10-05', fechaFin: '2024-10-20', estado: 'Abierto', categoria: [{ nombre: 'A' }, { nombre: 'Mixta' }] },
+  2: [ // Club ID 2: Osaka Padel
+    { id: 201, nombre: 'Abierto de Otoño', fechaInicio: '2024-10-05', fechaFin: '2024-10-20', estado: 'Abierto', categoria: [{ nombre: 'A' }, { nombre: 'Mixta' }], clubId: 2 }, // Explicitly linking to club 2
   ],
 };
 
@@ -329,9 +340,12 @@ const mockGlobalRanking: IGlobalRankingEntry[] = [
 ];
 
 const mockSponsors: ISponsor[] = [
-  { id: 1, nombre: 'Pádel Pro', logoUrl: 'https://placehold.co/100x50/dc2626/ffffff?text=PadelPro', link: 'https://www.padelpro.com' },
-  { id: 2, nombre: 'Raqueta Plus', logoUrl: 'https://placehold.co/100x50/f59e0b/ffffff?text=RaquetaPlus', link: 'https://www.raquetaplus.com' },
-  { id: 3, nombre: 'Deportes Total', logoUrl: 'https://placehold.co/100x50/ffffff/dc2626?text=DeportesTotal', link: 'https://www.deportestotal.com' },
+  { id: 1, nombre: 'ENA', logoUrl: ENA, link: 'https://www.padelpro.com' },
+  { id: 2, nombre: 'Raqueta Plus', logoUrl: Aonken, link: 'https://www.raquetaplus.com' },
+  { id: 3, nombre: 'Deportes Total', logoUrl: Promar, link: 'https://www.deportestotal.com' },
+  { id: 4, nombre: 'ENA', logoUrl:Bull, link: 'https://www.padelpro.com' },
+  { id: 5, nombre: 'Raqueta Plus', logoUrl: Codimat, link: 'https://www.raquetaplus.com' },
+  { id: 6, nombre: 'Deportes Total', logoUrl: ADN, link: 'https://www.deportestotal.com' },
 ];
 
 
@@ -408,7 +422,7 @@ const themes = {
     clubSelectBorder: 'border-red-500',
     clubSelectBg: 'bg-zinc-700',
     clubSelectText: 'text-white',
-    sponsorSectionBg: 'bg-zinc-800',
+    sponsorSectionBg: 'bg-white',
     sponsorSectionBorder: 'border-amber-400',
     sponsorTitleColor: 'text-gray-200',
     clubInfoBg: 'bg-zinc-800',
@@ -529,9 +543,14 @@ function App() {
   const [selectedClubId, setSelectedClubId] = useState<number | null>(mockClubs[0].id);
   const [activeTab, setActiveTab] = useState<'torneos' | 'rankingInterno' | 'rankingGlobal' | 'jugadores'>('torneos');
   const [selectedTournamentForFixture, setSelectedTournamentForFixture] = useState<ITorneo | null>(null);
-  const [selectedPlayerForStats, setSelectedPlayerForStats] = useState<IJugador | null>(null); // Nuevo estado para jugador seleccionado
+  const [selectedPlayerForStats, setSelectedPlayerForStats] = useState<IJugador | null>(null); 
   const [currentTheme, setCurrentTheme] = useState<'classic' | 'impactful' | 'middle'>('middle');
-  const [showThemeSelector, setShowThemeSelector] = useState<boolean>(false); // Estado para controlar la visibilidad del selector de tema
+  const [showThemeSelector, setShowThemeSelector] = useState<boolean>(false); 
+
+  // New state for player filters and sorting
+  const [playerFilterClubId, setPlayerFilterClubId] = useState<number | 'all'>('all');
+  const [playerSortOrder, setPlayerSortOrder] = useState<'default' | 'winRateDesc'>('default');
+
 
   const selectedClub = mockClubs.find(club => club.id === selectedClubId);
   const clubTournaments = selectedClubId ? mockTournaments[selectedClubId] || [] : [];
@@ -542,6 +561,44 @@ function App() {
   ];
 
   const theme = themes[currentTheme];
+
+  // Helper function to find club logo by ID
+  const getClubLogo = (clubId: number | undefined) => {
+    if (!clubId) return null;
+    const club = mockClubs.find(c => c.id === clubId);
+    return club ? club.logo : null;
+  };
+
+  // Function to calculate win rate
+  const calculateWinRate = (player: IJugador): number => {
+    if (player.estadisticas?.partidosJugados && player.estadisticas.partidosJugados > 0) {
+      return (player.estadisticas.partidosGanados || 0) / player.estadisticas.partidosJugados;
+    }
+    return 0;
+  };
+
+  // Memoized and filtered/sorted players list
+  const filteredAndSortedPlayers = useMemo(() => {
+    let players = [...mockPlayersData];
+
+    // Filter by club
+    if (playerFilterClubId !== 'all') {
+      players = players.filter(player => player.club?.id === playerFilterClubId);
+    }
+
+    // Sort
+    if (playerSortOrder === 'winRateDesc') {
+      players.sort((a, b) => {
+        const winRateA = calculateWinRate(a);
+        const winRateB = calculateWinRate(b);
+        return winRateB - winRateA; // Descending order
+      });
+    }
+    // Default sorting could be by ranking or name, for now, it's just the order in mockPlayersData
+    
+    return players;
+  }, [playerFilterClubId, playerSortOrder]);
+
 
   // Función para manejar el clic en un jugador del ranking
   const handlePlayerClick = (player: IJugador) => {
@@ -612,14 +669,14 @@ function App() {
 
       {/* Sección de Sponsors */}
       <section className={`${theme.sponsorSectionBg} shadow-lg rounded-xl p-4 mb-8 border-b-2 ${theme.sponsorSectionBorder}`}>
-        <h2 className="text-xl font-bold mb-4 text-center" style={{ color: theme.sponsorTitleColor }}>ALIADOS ESTRATÉGICOS</h2>
+        <h2 className="text-xl font-bold mb-4 text-center text-gray-700" >ALIADOS ESTRATÉGICOS</h2>
         <div className="flex flex-wrap justify-center items-center gap-6">
           {mockSponsors.map(sponsor => (
             <a key={sponsor.id} href={sponsor.link} target="_blank" rel="noopener noreferrer" className="block transform transition-transform duration-200 hover:scale-110">
               <img
                 src={sponsor.logoUrl}
                 alt={sponsor.nombre}
-                className="h-12 object-contain rounded-md shadow-md border border-gray-700"
+                className="h-12 object-contain rounded-md "
                 onError={(e) => { e.currentTarget.src = `https://placehold.co/100x50/cccccc/333333?text=${sponsor.nombre.split(' ').map(n => n[0]).join('')}` }}
               />
             </a>
@@ -690,31 +747,44 @@ function App() {
             <h3 className="text-2xl font-bold mb-6 border-b-2 pb-2" style={{ color: theme.sectionTitleColor, borderColor: theme.sectionTitleBorder }}>ARENA DE CAMPEONES</h3>
             {clubTournaments.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {clubTournaments.map(tournament => (
-                  <div key={tournament.id} className={`${theme.tournamentCardBg} p-6 rounded-lg shadow-xl border ${theme.tournamentCardBorder} hover:shadow-2xl transition-shadow duration-300 flex flex-col justify-between transform hover:scale-105`}>
-                    <div>
-                      <h4 className={`text-xl font-bold ${theme.tournamentNameColor} mb-2`}>{tournament.nombre.toUpperCase()}</h4>
-                      <p className={`text-sm ${theme.tournamentDateColor} mb-2`}>
-                        {new Date(tournament.fechaInicio).toLocaleDateString()} - {new Date(tournament.fechaFin).toLocaleDateString()}
-                      </p>
-                      <p className={`font-semibold ${tournament.estado === 'En Curso' ? theme.tournamentStatusInProgress : tournament.estado === 'Abierto' ? theme.tournamentStatusOpen : theme.tournamentStatusOther} mb-2`}>
-                        ESTADO: {tournament.estado.toUpperCase()}
-                      </p>
-                      <p className={`${theme.tournamentTextColor}`}>CATEGORÍAS: {tournament.categoria.map(cat => cat.nombre).join(', ')}</p>
-                      {tournament.maxParejas && (
-                        <p className={`${theme.tournamentTextColor}`}>MÁX. PAREJAS: {tournament.maxParejas}</p>
+                {clubTournaments.map(tournament => {
+                  const tournamentClubLogo = getClubLogo(tournament.clubId); // Get logo for the tournament's club
+                  return (
+                    <div key={tournament.id} className={`${theme.tournamentCardBg} p-6 rounded-lg shadow-xl border ${theme.tournamentCardBorder} hover:shadow-2xl transition-shadow duration-300 flex flex-col justify-between transform hover:scale-105`}>
+                      <div>
+                        <div className="flex items-center mb-2">
+                          {tournamentClubLogo && (
+                            <img
+                              src={tournamentClubLogo}
+                              alt="Club Logo"
+                              className="h-8 w-8 mr-2 object-contain rounded-full border border-gray-300"
+                              onError={(e) => { e.currentTarget.src = `https://placehold.co/32x32/cccccc/333333?text=Club` }}
+                            />
+                          )}
+                          <h4 className={`text-xl font-bold ${theme.tournamentNameColor}`}>{tournament.nombre.toUpperCase()}</h4>
+                        </div>
+                        <p className={`text-sm ${theme.tournamentDateColor} mb-2`}>
+                          {new Date(tournament.fechaInicio).toLocaleDateString()} - {new Date(tournament.fechaFin).toLocaleDateString()}
+                        </p>
+                        <p className={`font-semibold ${tournament.estado === 'En Curso' ? theme.tournamentStatusInProgress : tournament.estado === 'Abierto' ? theme.tournamentStatusOpen : theme.tournamentStatusOther} mb-2`}>
+                          ESTADO: {tournament.estado.toUpperCase()}
+                        </p>
+                        <p className={`${theme.tournamentTextColor}`}>CATEGORÍAS: {tournament.categoria.map(cat => cat.nombre).join(', ')}</p>
+                        {tournament.maxParejas && (
+                          <p className={`${theme.tournamentTextColor}`}>MÁX. PAREJAS: {tournament.maxParejas}</p>
+                        )}
+                      </div>
+                      {tournament.fixture && Object.keys(tournament.fixture).length > 0 && (
+                        <button
+                          className={`mt-4 w-full ${theme.fixtureButtonBg} ${theme.fixtureButtonText} py-2 px-4 rounded-lg hover:bg-opacity-80 transition-colors duration-300 shadow-md transform hover:scale-105 font-bold uppercase tracking-wide`}
+                          onClick={() => setSelectedTournamentForFixture(tournament)}
+                        >
+                          VER CUADRO DE JUEGO
+                        </button>
                       )}
                     </div>
-                    {tournament.fixture && Object.keys(tournament.fixture).length > 0 && (
-                      <button
-                        className={`mt-4 w-full ${theme.fixtureButtonBg} ${theme.fixtureButtonText} py-2 px-4 rounded-lg hover:bg-opacity-80 transition-colors duration-300 shadow-md transform hover:scale-105 font-bold uppercase tracking-wide`}
-                        onClick={() => setSelectedTournamentForFixture(tournament)}
-                      >
-                        VER CUADRO DE JUEGO
-                      </button>
-                    )}
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             ) : (
               <p className={`${theme.tournamentTextColor} text-center py-8`}>¡NO HAY CAMPEONATOS DISPONIBLES EN ESTA ARENA!</p>
@@ -746,7 +816,17 @@ function App() {
                                 onClick={() => handlePlayerClick(entry.jugador)} // Hacer fila clicable
                             >
                               <td className={`py-3 px-4 ${theme.tableTextColor}`}>{entry.posicion}</td>
-                              <td className={`py-3 px-4 ${theme.tableTextColor}`}>{entry.jugador.nombre} {entry.jugador.apellido}</td>
+                              <td className={`py-3 px-4 ${theme.tableTextColor} flex items-center`}>
+                                {entry.jugador.club?.logo && (
+                                  <img
+                                    src={entry.jugador.club.logo}
+                                    alt="Club Logo"
+                                    className="h-6 w-6 mr-2 object-contain rounded-full border border-gray-300"
+                                    onError={(e) => { e.currentTarget.src = `https://placehold.co/24x24/cccccc/333333?text=Club` }}
+                                  />
+                                )}
+                                {entry.jugador.nombre} {entry.jugador.apellido}
+                              </td>
                               <td className={`py-3 px-4 ${theme.tableAccentColor} font-bold`}>{entry.puntos}</td>
                             </tr>
                           ))}
@@ -782,7 +862,17 @@ function App() {
                           onClick={() => handlePlayerClick(entry.jugador)} // Hacer fila clicable
                       >
                         <td className={`py-3 px-4 ${theme.tableTextColor}`}>{entry.posicionGlobal}</td>
-                        <td className={`py-3 px-4 ${theme.tableTextColor}`}>{entry.jugador.nombre} {entry.jugador.apellido}</td>
+                        <td className={`py-3 px-4 ${theme.tableTextColor} flex items-center`}>
+                          {entry.jugador.club?.logo && (
+                            <img
+                              src={entry.jugador.club.logo}
+                              alt="Club Logo"
+                              className="h-6 w-6 mr-2 object-contain rounded-full border border-gray-300"
+                              onError={(e) => { e.currentTarget.src = `https://placehold.co/24x24/cccccc/333333?text=Club` }}
+                            />
+                          )}
+                          {entry.jugador.nombre} {entry.jugador.apellido}
+                        </td>
                         <td className={`py-3 px-4 ${theme.tableAccentColor} font-bold`}>{entry.puntosGlobales}</td>
                       </tr>
                     ))}
@@ -798,14 +888,48 @@ function App() {
         {activeTab === 'jugadores' && (
           <section>
             <h3 className="text-2xl font-bold mb-6 border-b-2 pb-2" style={{ color: theme.sectionTitleColor, borderColor: theme.sectionTitleBorder }}>PERFILES DE JUGADORES</h3>
-            {mockPlayersData.length > 0 ? (
+            
+            {/* Player Filters and Sort Controls */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+              <div className="flex items-center gap-2">
+                <label htmlFor="player-club-filter" className={`text-lg font-semibold ${theme.sponsorTitleColor}`}>Filtrar por Arena:</label>
+                <select
+                  id="player-club-filter"
+                  className={`p-2 border ${theme.clubSelectBorder} rounded-lg shadow-md focus:ring-amber-400 focus:border-amber-400 ${theme.clubSelectBg} ${theme.clubSelectText} transition-all duration-200`}
+                  value={playerFilterClubId}
+                  onChange={(e) => setPlayerFilterClubId(e.target.value === 'all' ? 'all' : Number(e.target.value))}
+                >
+                  <option value="all">Todos los Clubes</option>
+                  {mockClubs.map(club => (
+                    <option key={club.id} value={club.id}>
+                      {club.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <label htmlFor="player-sort-order" className={`text-lg font-semibold ${theme.sponsorTitleColor}`}>Ordenar por:</label>
+                <select
+                  id="player-sort-order"
+                  className={`p-2 border ${theme.clubSelectBorder} rounded-lg shadow-md focus:ring-amber-400 focus:border-amber-400 ${theme.clubSelectBg} ${theme.clubSelectText} transition-all duration-200`}
+                  value={playerSortOrder}
+                  onChange={(e) => setPlayerSortOrder(e.target.value as 'default' | 'winRateDesc')}
+                >
+                  <option value="default">Defecto</option>
+                  <option value="winRateDesc">Win Rate (Mayor a Menor)</option>
+                </select>
+              </div>
+            </div>
+
+            {filteredAndSortedPlayers.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {mockPlayersData.map(player => (
+                {filteredAndSortedPlayers.map(player => (
                   <PlayerStatisticsCard key={player.id} player={player} />
                 ))}
               </div>
             ) : (
-              <p className={`${theme.tournamentTextColor} text-center py-8`}>No hay perfiles de jugadores disponibles.</p>
+              <p className={`${theme.tournamentTextColor} text-center py-8`}>No hay perfiles de jugadores disponibles con los filtros actuales.</p>
             )}
           </section>
         )}
