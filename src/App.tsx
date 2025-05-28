@@ -531,6 +531,7 @@ function App() {
   const [selectedTournamentForFixture, setSelectedTournamentForFixture] = useState<ITorneo | null>(null);
   const [selectedPlayerForStats, setSelectedPlayerForStats] = useState<IJugador | null>(null); // Nuevo estado para jugador seleccionado
   const [currentTheme, setCurrentTheme] = useState<'classic' | 'impactful' | 'middle'>('middle');
+  const [showThemeSelector, setShowThemeSelector] = useState<boolean>(false); // Estado para controlar la visibilidad del selector de tema
 
   const selectedClub = mockClubs.find(club => club.id === selectedClubId);
   const clubTournaments = selectedClubId ? mockTournaments[selectedClubId] || [] : [];
@@ -549,26 +550,37 @@ function App() {
 
   return (
     <div className={`min-h-screen font-sans p-4 sm:p-6 lg:p-8 transition-colors duration-500 ${theme.bodyBg} ${theme.tableTextColor}`}>
-      {/* Selector de Tema */}
-      <div className="flex justify-center gap-4 mb-6">
+      {/* Selector de Tema Sutil (Flecha Desplegable) */}
+      <div className="relative flex justify-center w-full mb-6 z-20"> {/* z-20 para asegurar que esté por encima de otros elementos */}
         <button
-          className={`px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${currentTheme === 'classic' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
-          onClick={() => setCurrentTheme('classic')}
+          className={` rounded-full  transition-all duration-300 ${theme.tabInactiveBg} hover:bg-opacity-80 flex items-center justify-center`}
+          onClick={() => setShowThemeSelector(!showThemeSelector)}
+          aria-label="Seleccionar estilo"
         >
-          Clásico
+          <span className={`text-xl font-bold ${theme.tabInactiveText} transform transition-transform duration-300 ${showThemeSelector ? 'rotate-180' : 'rotate-0'}`}>&#9660;</span> {/* Flecha hacia abajo/arriba */}
         </button>
-        <button
-          className={`px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${currentTheme === 'middle' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
-          onClick={() => setCurrentTheme('middle')}
-        >
-          Moderno
-        </button>
-        <button
-          className={`px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${currentTheme === 'impactful' ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
-          onClick={() => setCurrentTheme('impactful')}
-        >
-          Impactante
-        </button>
+        {showThemeSelector && (
+          <div className={`absolute top-full mt-2 w-48 ${theme.navBg} rounded-md shadow-lg py-1 z-10 origin-top animate-slide-down`}> {/* animate-slide-down */}
+            <button
+              className={`block w-full text-left px-4 py-2 text-sm font-semibold ${currentTheme === 'classic' ? `${theme.tabActiveBg} ${theme.tabActiveText}` : `${theme.tabInactiveText} hover:bg-gray-100`} transition-colors duration-200`}
+              onClick={() => { setCurrentTheme('classic'); setShowThemeSelector(false); }}
+            >
+              Clásico
+            </button>
+            <button
+              className={`block w-full text-left px-4 py-2 text-sm font-semibold ${currentTheme === 'middle' ? `${theme.tabActiveBg} ${theme.tabActiveText}` : `${theme.tabInactiveText} hover:bg-gray-100`} transition-colors duration-200`}
+              onClick={() => { setCurrentTheme('middle'); setShowThemeSelector(false); }}
+            >
+              Moderno
+            </button>
+            <button
+              className={`block w-full text-left px-4 py-2 text-sm font-semibold ${currentTheme === 'impactful' ? `${theme.tabActiveBg} ${theme.tabActiveText}` : `${theme.tabInactiveText} hover:bg-gray-100`} transition-colors duration-200`}
+              onClick={() => { setCurrentTheme('impactful'); setShowThemeSelector(false); }}
+            >
+              Impactante
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Encabezado */}
