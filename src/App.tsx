@@ -41,15 +41,8 @@ interface IJugador {
 
 interface IPareja {
   id?: number;
-  // Estos campos (nombre, apellido) se añaden directamente a IPareja
-  // para simplificar la creación de datos mock para el fixture en la demo.
-  // En un sistema real, la pareja tendría un nombre y los jugadores individuales
-  // se referirían a IJugador (ej. jugador1: IJugador, jugador2: IJugador).
-  nombre: string;
-  apellido: string;
-  
-  jugador1?: IJugador; // Opcional para esta demo, ya que nombre/apellido se usan directamente
-  jugador2?: IJugador; // Opcional para esta demo
+  jugador1: IJugador; 
+  jugador2: IJugador;
   nombrePareja?: string; // Nombre personalizado de la pareja (ej. "Los Invencibles")
 }
 
@@ -177,8 +170,8 @@ const mockPlayersData: IJugador[] = [
   },
   {
     id: 5,
-    nombre: 'Equipo',
-    apellido: '1', // Para los mocks de equipos
+    nombre: 'Franco',
+    apellido: 'EquipoUno', 
     rankingGeneral: 10,
     estadisticas: { partidosJugados: 70, partidosGanados: 50, torneosJugados: 8, torneosGanados: 0 },
     club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo },
@@ -186,8 +179,8 @@ const mockPlayersData: IJugador[] = [
   },
   {
     id: 6,
-    nombre: 'Equipo',
-    apellido: '3', // Para los mocks de equipos
+    nombre: 'Lucas',
+    apellido: 'EquipoTres', 
     rankingGeneral: 15,
     estadisticas: { partidosJugados: 60, partidosGanados: 40, torneosJugados: 7, torneosGanados: 0 },
     club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo },
@@ -211,20 +204,57 @@ const mockPlayersData: IJugador[] = [
     club: { id: 2, nombre: 'Osaka Padel', logo: mockClubs[1].logo },
     categoriaPrincipal: { id: 4, nombre: 'A' },
   },
-  // Jugadores para fixture, para que no tengan id duplicado con los de arriba
+  // Jugadores adicionales para conformar parejas en el fixture
   { id: 9, nombre: 'Pedro', apellido: 'Gómez', estadisticas: {partidosJugados: 10, partidosGanados: 5}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
-  { id: 10, nombre: 'Marta', apellido: 'López', estadisticas: {partidosJugados: 12, partidosGanados: 6}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 10, nombre: 'Sofía', apellido: 'Paz', estadisticas: {partidosJugados: 12, partidosGanados: 6}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
   { id: 11, nombre: 'Diego', apellido: 'Silva', estadisticas: {partidosJugados: 8, partidosGanados: 3}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
-  { id: 12, nombre: 'Sofía', apellido: 'Rojas', estadisticas: {partidosJugados: 15, partidosGanados: 9}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 12, nombre: 'Rojas', apellido: 'Elena', estadisticas: {partidosJugados: 15, partidosGanados: 9}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
   { id: 13, nombre: 'Andrés', apellido: 'Castro', estadisticas: {partidosJugados: 20, partidosGanados: 12}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
   { id: 14, nombre: 'Lucía', apellido: 'Díaz', estadisticas: {partidosJugados: 18, partidosGanados: 10}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
   { id: 15, nombre: 'Martín', apellido: 'Vargas', estadisticas: {partidosJugados: 25, partidosGanados: 18}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
   { id: 16, nombre: 'Paula', apellido: 'Herrera', estadisticas: {partidosJugados: 22, partidosGanados: 15}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
   { id: 17, nombre: 'Javier', apellido: 'Soto', estadisticas: {partidosJugados: 30, partidosGanados: 20}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
-  { id: 18, nombre: 'Valeria', apellido: 'Paz', estadisticas: {partidosJugados: 28, partidosGanados: 19}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
+  { id: 18, nombre: 'Valeria', apellido: 'Romero', estadisticas: {partidosJugados: 28, partidosGanados: 19}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
   { id: 19, nombre: 'Ricardo', apellido: 'Blanco', estadisticas: {partidosJugados: 35, partidosGanados: 25}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
   { id: 20, nombre: 'Florencia', apellido: 'Moreno', estadisticas: {partidosJugados: 32, partidosGanados: 22}, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
 ];
+
+// Define parejas para el fixture, usando los IDs de mockPlayersData
+const pair1A: IPareja = { id: 1, jugador1: mockPlayersData[0], jugador2: mockPlayersData[8], nombrePareja: "Los Padelistas" }; // Juan Pérez & Pedro Gómez
+const pair1B: IPareja = { id: 2, jugador1: mockPlayersData[1], jugador2: mockPlayersData[9], nombrePareja: "Las Reinas de la Cancha" }; // Ana García & Sofía Paz
+const pair2A: IPareja = { id: 3, jugador1: mockPlayersData[2], jugador2: mockPlayersData[10] }; // Carlos Ruiz & Diego Silva
+const pair2B: IPareja = { id: 4, jugador1: mockPlayersData[3], jugador2: mockPlayersData[11] }; // Marta López & Elena Rojas
+const pair3A: IPareja = { id: 5, jugador1: mockPlayersData[12], jugador2: mockPlayersData[13] }; // Andrés Castro & Lucía Díaz
+const pair3B: IPareja = { id: 6, jugador1: mockPlayersData[14], jugador2: mockPlayersData[15] }; // Martín Vargas & Paula Herrera
+const pair4A: IPareja = { id: 7, jugador1: mockPlayersData[16], jugador2: mockPlayersData[17] }; // Javier Soto & Valeria Romero
+const pair4B: IPareja = { id: 8, jugador1: mockPlayersData[18], jugador2: mockPlayersData[19] }; // Ricardo Blanco & Florencia Moreno
+
+// Parejas genéricas para "Abierto de Invierno"
+const genericPair1: IPareja = { id: 20, jugador1: { nombre: 'Equipo', apellido: '1' }, jugador2: { nombre: 'Jugador', apellido: 'X' }};
+const genericPair2: IPareja = { id: 21, jugador1: { nombre: 'Equipo', apellido: '2' }, jugador2: { nombre: 'Jugador', apellido: 'Y' }};
+const genericPair3: IPareja = { id: 22, jugador1: { nombre: 'Equipo', apellido: '3' }, jugador2: { nombre: 'Jugador', apellido: 'Z' }};
+const genericPair4: IPareja = { id: 23, jugador1: { nombre: 'Equipo', apellido: '4' }, jugador2: { nombre: 'Jugador', apellido: 'W' }};
+const genericPair5: IPareja = { id: 24, jugador1: { nombre: 'Equipo', apellido: '5' }, jugador2: { nombre: 'Jugador', apellido: 'A' }};
+const genericPair6: IPareja = { id: 25, jugador1: { nombre: 'Equipo', apellido: '6' }, jugador2: { nombre: 'Jugador', apellido: 'B' }};
+const genericPair7: IPareja = { id: 26, jugador1: { nombre: 'Equipo', apellido: '7' }, jugador2: { nombre: 'Jugador', apellido: 'C' }};
+const genericPair8: IPareja = { id: 27, jugador1: { nombre: 'Equipo', apellido: '8' }, jugador2: { nombre: 'Jugador', apellido: 'D' }};
+const genericPair9: IPareja = { id: 28, jugador1: { nombre: 'Equipo', apellido: '9' }, jugador2: { nombre: 'Jugador', apellido: 'E' }};
+const genericPair10: IPareja = { id: 29, jugador1: { nombre: 'Equipo', apellido: '10' }, jugador2: { nombre: 'Jugador', apellido: 'F' }};
+const genericPair11: IPareja = { id: 30, jugador1: { nombre: 'Equipo', apellido: '11' }, jugador2: { nombre: 'Jugador', apellido: 'G' }};
+const genericPair12: IPareja = { id: 31, jugador1: { nombre: 'Equipo', apellido: '12' }, jugador2: { nombre: 'Jugador', apellido: 'H' }};
+const genericPair13: IPareja = { id: 32, jugador1: { nombre: 'Equipo', apellido: '13' }, jugador2: { nombre: 'Jugador', apellido: 'I' }};
+const genericPair14: IPareja = { id: 33, jugador1: { nombre: 'Equipo', apellido: '14' }, jugador2: { nombre: 'Jugador', apellido: 'J' }};
+const genericPair15: IPareja = { id: 34, jugador1: { nombre: 'Equipo', apellido: '15' }, jugador2: { nombre: 'Jugador', apellido: 'K' }};
+const genericPair16: IPareja = { id: 35, jugador1: { nombre: 'Equipo', apellido: '16' }, jugador2: { nombre: 'Jugador', apellido: 'L' }};
+const genericPair17: IPareja = { id: 36, jugador1: { nombre: 'Equipo', apellido: '17' }, jugador2: { nombre: 'Jugador', apellido: 'M' }};
+const genericPair18: IPareja = { id: 37, jugador1: { nombre: 'Equipo', apellido: '18' }, jugador2: { nombre: 'Jugador', apellido: 'N' }};
+const genericPair19: IPareja = { id: 38, jugador1: { nombre: 'Equipo', apellido: '19' }, jugador2: { nombre: 'Jugador', apellido: 'O' }};
+const genericPair20: IPareja = { id: 39, jugador1: { nombre: 'Equipo', apellido: '20' }, jugador2: { nombre: 'Jugador', apellido: 'P' }};
+const genericPair21: IPareja = { id: 40, jugador1: { nombre: 'Equipo', apellido: '21' }, jugador2: { nombre: 'Jugador', apellido: 'Q' }};
+const genericPair22: IPareja = { id: 41, jugador1: { nombre: 'Equipo', apellido: '22' }, jugador2: { nombre: 'Jugador', apellido: 'R' }};
+const genericPair23: IPareja = { id: 42, jugador1: { nombre: 'Equipo', apellido: '23' }, jugador2: { nombre: 'Jugador', apellido: 'S' }};
+const genericPair24: IPareja = { id: 43, jugador1: { nombre: 'Equipo', apellido: '24' }, jugador2: { nombre: 'Jugador', apellido: 'T' }};
+const genericPair25: IPareja = { id: 44, jugador1: { nombre: 'Equipo', apellido: '25' }, jugador2: { nombre: 'Jugador', apellido: 'U' }};
 
 
 const mockTournaments: { [key: number]: ITorneo[] } = {
@@ -240,18 +270,18 @@ const mockTournaments: { [key: number]: ITorneo[] } = {
       clubId: 1, // Explicitly linking to club 1
       fixture: {
         octavos: [
-          { id: 1, pareja1: mockPlayersData[0], pareja2: mockPlayersData[8], resultado: null, ganador: null, estado: 'Programado' },
-          { id: 2, pareja1: mockPlayersData[1], pareja2: mockPlayersData[9], resultado: '6-3, 6-4', ganador: mockPlayersData[1], estado: 'Finalizado' },
-          { id: 3, pareja1: mockPlayersData[2], pareja2: mockPlayersData[10], resultado: null, ganador: null, estado: 'En Curso' },
-          { id: 4, pareja1: mockPlayersData[3], pareja2: mockPlayersData[11], resultado: null, ganador: null, estado: 'Programado' },
-          { id: 5, pareja1: mockPlayersData[12], pareja2: mockPlayersData[13], resultado: '7-5, 6-2', ganador: mockPlayersData[12], estado: 'Finalizado' },
-          { id: 6, pareja1: mockPlayersData[14], pareja2: mockPlayersData[15], resultado: null, ganador: null, estado: 'Programado' },
-          { id: 7, pareja1: mockPlayersData[16], pareja2: mockPlayersData[17], resultado: '6-1, 6-0', ganador: mockPlayersData[16], estado: 'Finalizado' },
-          { id: 8, pareja1: mockPlayersData[18], pareja2: mockPlayersData[19], resultado: null, ganador: null, estado: 'Programado' },
+          { id: 1, pareja1: pair1A, pareja2: pair2A, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 2, pareja1: pair1B, pareja2: pair2B, resultado: '6-3, 6-4', ganador: pair1B, estado: 'Finalizado' },
+          { id: 3, pareja1: pair3A, pareja2: pair3B, resultado: null, ganador: null, estado: 'En Curso' },
+          { id: 4, pareja1: pair4A, pareja2: pair4B, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 5, pareja1: { id: 9, jugador1: mockPlayersData[4], jugador2: mockPlayersData[5] }, pareja2: { id: 10, jugador1: mockPlayersData[6], jugador2: mockPlayersData[7] }, resultado: '7-5, 6-2', ganador: { id: 9, jugador1: mockPlayersData[4], jugador2: mockPlayersData[5] }, estado: 'Finalizado' },
+          { id: 6, pareja1: { id: 11, jugador1: mockPlayersData[1], jugador2: mockPlayersData[12] }, pareja2: { id: 12, jugador1: mockPlayersData[13], jugador2: mockPlayersData[14] }, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 7, pareja1: { id: 13, jugador1: mockPlayersData[15], jugador2: mockPlayersData[16] }, pareja2: { id: 14, jugador1: mockPlayersData[17], jugador2: mockPlayersData[18] }, resultado: '6-1, 6-0', ganador: { id: 13, jugador1: mockPlayersData[15], jugador2: mockPlayersData[16] }, estado: 'Finalizado' },
+          { id: 8, pareja1: { id: 15, jugador1: mockPlayersData[19], jugador2: mockPlayersData[0] }, pareja2: { id: 16, jugador1: mockPlayersData[8], jugador2: mockPlayersData[9] }, resultado: null, ganador: null, estado: 'Programado' },
         ],
         cuartos: [
-          { id: 9, pareja1: mockPlayersData[1], pareja2: mockPlayersData[12], resultado: null, ganador: null, estado: 'Programado' },
-          { id: 10, pareja1: mockPlayersData[16], pareja2: mockPlayersData[2], resultado: null, ganador: null, estado: 'Programado' },
+          { id: 9, pareja1: pair1B, pareja2: { id: 9, jugador1: mockPlayersData[4], jugador2: mockPlayersData[5] }, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 10, pareja1: { id: 13, jugador1: mockPlayersData[15], jugador2: mockPlayersData[16] }, pareja2: pair2A, resultado: null, ganador: null, estado: 'Programado' },
         ],
         semifinales: [],
         final: [],
@@ -268,17 +298,17 @@ const mockTournaments: { [key: number]: ITorneo[] } = {
       clubId: 1, // Explicitly linking to club 1
       fixture: {
         cuartos: [
-          { id: 11, pareja1: { nombre: 'Roberto', apellido: 'Diaz' }, pareja2: { nombre: 'Sofía', apellido: 'Castro' }, resultado: '6-2, 6-1', ganador: { nombre: 'Roberto', apellido: 'Diaz' }, estado: 'Finalizado' },
-          { id: 12, pareja1: { nombre: 'Luis', apellido: 'Herrera' }, pareja2: { nombre: 'Elena', apellido: 'Vargas' }, resultado: '7-5, 4-6, 6-3', ganador: { nombre: 'Luis', apellido: 'Herrera' }, estado: 'Finalizado' },
-          { id: 13, pareja1: { nombre: 'Andrea', apellido: 'Morales' }, pareja2: { nombre: 'Javier', apellido: 'Soto' }, resultado: '6-0, 6-0', ganador: { nombre: 'Andrea', apellido: 'Morales' }, estado: 'Finalizado' },
-          { id: 14, pareja1: { nombre: 'Mariana', apellido: 'Giménez' }, pareja2: { nombre: 'Pablo', apellido: 'Núñez' }, resultado: '6-4, 7-6', ganador: { nombre: 'Mariana', apellido: 'Giménez' }, estado: 'Finalizado' },
+          { id: 11, pareja1: { jugador1: { nombre: 'Roberto', apellido: 'Diaz' } as IJugador, jugador2: { nombre: 'Andres', apellido: 'Perez' } as IJugador }, pareja2: { jugador1: { nombre: 'Sofía', apellido: 'Castro' } as IJugador, jugador2: { nombre: 'Laura', apellido: 'Gomez' } as IJugador }, resultado: '6-2, 6-1', ganador: { jugador1: { nombre: 'Roberto', apellido: 'Diaz' } as IJugador, jugador2: { nombre: 'Andres', apellido: 'Perez' } as IJugador }, estado: 'Finalizado' },
+          { id: 12, pareja1: { jugador1: { nombre: 'Luis', apellido: 'Herrera' } as IJugador, jugador2: { nombre: 'Pedro', apellido: 'Ruiz' } as IJugador }, pareja2: { jugador1: { nombre: 'Elena', apellido: 'Vargas' } as IJugador, jugador2: { nombre: 'Carla', apellido: 'Morales' } as IJugador }, resultado: '7-5, 4-6, 6-3', ganador: { jugador1: { nombre: 'Luis', apellido: 'Herrera' } as IJugador, jugador2: { nombre: 'Pedro', apellido: 'Ruiz' } as IJugador }, estado: 'Finalizado' },
+          { id: 13, pareja1: { jugador1: { nombre: 'Andrea', apellido: 'Morales' } as IJugador, jugador2: { nombre: 'Julia', apellido: 'Soto' } as IJugador }, pareja2: { jugador1: { nombre: 'Javier', apellido: 'Gonzalez' } as IJugador, jugador2: { nombre: 'Pablo', apellido: 'Lopez' } as IJugador }, resultado: '6-0, 6-0', ganador: { jugador1: { nombre: 'Andrea', apellido: 'Morales' } as IJugador, jugador2: { nombre: 'Julia', apellido: 'Soto' } as IJugador }, estado: 'Finalizado' },
+          { id: 14, pareja1: { jugador1: { nombre: 'Mariana', apellido: 'Giménez' } as IJugador, jugador2: { nombre: 'Luciana', apellido: 'Ferrari' } as IJugador }, pareja2: { jugador1: { nombre: 'Pablo', apellido: 'Núñez' } as IJugador, jugador2: { nombre: 'Fernando', apellido: 'Diaz' } as IJugador }, resultado: '6-4, 7-6', ganador: { jugador1: { nombre: 'Mariana', apellido: 'Giménez' } as IJugador, jugador2: { nombre: 'Luciana', apellido: 'Ferrari' } as IJugador }, estado: 'Finalizado' },
         ],
         semifinales: [
-          { id: 15, pareja1: { nombre: 'Roberto', apellido: 'Diaz' }, pareja2: { nombre: 'Luis', apellido: 'Herrera' }, resultado: '6-4, 6-2', ganador: { nombre: 'Roberto', apellido: 'Diaz' }, estado: 'Finalizado' },
-          { id: 16, pareja1: { nombre: 'Andrea', apellido: 'Morales' }, pareja2: { nombre: 'Mariana', apellido: 'Giménez' }, resultado: '7-6, 6-3', ganador: { nombre: 'Andrea', apellido: 'Morales' }, estado: 'Finalizado' },
+          { id: 15, pareja1: { jugador1: { nombre: 'Roberto', apellido: 'Diaz' } as IJugador, jugador2: { nombre: 'Andres', apellido: 'Perez' } as IJugador }, pareja2: { jugador1: { nombre: 'Luis', apellido: 'Herrera' } as IJugador, jugador2: { nombre: 'Pedro', apellido: 'Ruiz' } as IJugador }, resultado: '6-4, 6-2', ganador: { jugador1: { nombre: 'Roberto', apellido: 'Diaz' } as IJugador, jugador2: { nombre: 'Andres', apellido: 'Perez' } as IJugador }, estado: 'Finalizado' },
+          { id: 16, pareja1: { jugador1: { nombre: 'Andrea', apellido: 'Morales' } as IJugador, jugador2: { nombre: 'Julia', apellido: 'Soto' } as IJugador }, pareja2: { jugador1: { nombre: 'Mariana', apellido: 'Giménez' } as IJugador, jugador2: { nombre: 'Luciana', apellido: 'Ferrari' } as IJugador }, resultado: '7-6, 6-3', ganador: { jugador1: { nombre: 'Andrea', apellido: 'Morales' } as IJugador, jugador2: { nombre: 'Julia', apellido: 'Soto' } as IJugador }, estado: 'Finalizado' },
         ],
         final: [
-          { id: 17, pareja1: { nombre: 'Roberto', apellido: 'Diaz' }, pareja2: { nombre: 'Andrea', apellido: 'Morales' }, resultado: '6-3, 7-5', ganador: { nombre: 'Roberto', apellido: 'Diaz' }, estado: 'Finalizado' },
+          { id: 17, pareja1: { jugador1: { nombre: 'Roberto', apellido: 'Diaz' } as IJugador, jugador2: { nombre: 'Andres', apellido: 'Perez' } as IJugador }, pareja2: { jugador1: { nombre: 'Andrea', apellido: 'Morales' } as IJugador, jugador2: { nombre: 'Julia', apellido: 'Soto' } as IJugador }, resultado: '6-3, 7-5', ganador: { jugador1: { nombre: 'Roberto', apellido: 'Diaz' } as IJugador, jugador2: { nombre: 'Andres', apellido: 'Perez' } as IJugador }, estado: 'Finalizado' },
         ],
       }
     },
@@ -293,19 +323,19 @@ const mockTournaments: { [key: number]: ITorneo[] } = {
       clubId: 1, // Explicitly linking to club 1
       fixture: {
         treintaidosavos: [
-          { id: 20, pareja1: { nombre: 'Equipo', apellido: '1' }, pareja2: { nombre: 'Equipo', apellido: '2' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 21, pareja1: { nombre: 'Equipo', apellido: '3' }, pareja2: { nombre: 'Equipo', apellido: '4' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 22, pareja1: { nombre: 'Equipo', apellido: '5' }, pareja2: { nombre: 'Equipo', apellido: '6' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 23, pareja1: { nombre: 'Equipo', apellido: '7' }, pareja2: { nombre: 'Equipo', apellido: '8' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 24, pareja1: { nombre: 'Equipo', apellido: '9' }, pareja2: { nombre: 'Equipo', apellido: '10' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 25, pareja1: { nombre: 'Equipo', apellido: '11' }, pareja2: { nombre: 'Equipo', apellido: '12' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 26, pareja1: { nombre: 'Equipo', apellido: '13' }, pareja2: { nombre: 'Equipo', apellido: '14' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 27, pareja1: { nombre: 'Equipo', apellido: '15' }, pareja2: { nombre: 'Equipo', apellido: '16' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 28, pareja1: { nombre: 'Equipo', apellido: '17' }, pareja2: { nombre: 'Equipo', apellido: '18' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 29, pareja1: { nombre: 'Equipo', apellido: '19' }, pareja2: { nombre: 'Equipo', apellido: '20' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 30, pareja1: { nombre: 'Equipo', apellido: '21' }, pareja2: { nombre: 'Equipo', apellido: '22' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 31, pareja1: { nombre: 'Equipo', apellido: '23' }, pareja2: { nombre: 'Equipo', apellido: '24' }, resultado: null, ganador: null, estado: 'Programado' },
-          { id: 32, pareja1: { nombre: 'Equipo', apellido: '25' }, pareja2: null, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 20, pareja1: genericPair1, pareja2: genericPair2, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 21, pareja1: genericPair3, pareja2: genericPair4, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 22, pareja1: genericPair5, pareja2: genericPair6, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 23, pareja1: genericPair7, pareja2: genericPair8, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 24, pareja1: genericPair9, pareja2: genericPair10, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 25, pareja1: genericPair11, pareja2: genericPair12, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 26, pareja1: genericPair13, pareja2: genericPair14, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 27, pareja1: genericPair15, pareja2: genericPair16, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 28, pareja1: genericPair17, pareja2: genericPair18, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 29, pareja1: genericPair19, pareja2: genericPair20, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 30, pareja1: genericPair21, pareja2: genericPair22, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 31, pareja1: genericPair23, pareja2: genericPair24, resultado: null, ganador: null, estado: 'Programado' },
+          { id: 32, pareja1: genericPair25, pareja2: null, resultado: null, ganador: null, estado: 'Programado' },
         ],
         dieciseisavos: [],
         octavos: [],
@@ -978,16 +1008,26 @@ function App() {
                         {partidos.map(partido => (
                           <div key={partido.id} className={`${theme.fixtureMatchCardBg} p-3 rounded-lg shadow-md border ${theme.fixtureMatchCardBorder}`}>
                             <p className={`text-sm ${theme.fixtureMatchTextColor} font-medium`}>
-                              {partido.pareja1.nombre} {partido.pareja1.apellido}
+                              {partido.pareja1.nombrePareja 
+                                ? partido.pareja1.nombrePareja 
+                                : `${partido.pareja1.jugador1.apellido} / ${partido.pareja1.jugador2.apellido}`}
                             </p>
                             <p className={`text-sm ${theme.fixtureMatchSubtextColor}`}>
-                              {partido.pareja2 ? `VS ${partido.pareja2.nombre} ${partido.pareja2.apellido}` : 'ESPERANDO RIVAL'}
+                              {partido.pareja2 
+                                ? (partido.pareja2.nombrePareja 
+                                  ? `VS ${partido.pareja2.nombrePareja}` 
+                                  : `VS ${partido.pareja2.jugador1.apellido} / ${partido.pareja2.jugador2.apellido}`) 
+                                : 'ESPERANDO RIVAL'}
                             </p>
                             {partido.resultado && (
                               <p className={`text-xs ${theme.fixtureMatchSubtextColor}`}>RESULTADO: {partido.resultado}</p>
                             )}
                             {partido.ganador && (
-                              <p className={`text-xs ${theme.fixtureMatchWinnerColor} font-bold`}>GANADOR: {partido.ganador.nombre} {partido.ganador.apellido}</p>
+                              <p className={`text-xs ${theme.fixtureMatchWinnerColor} font-bold`}>
+                                GANADOR: {partido.ganador.nombrePareja 
+                                  ? partido.ganador.nombrePareja 
+                                  : `${partido.ganador.jugador1.apellido} / ${partido.ganador.jugador2.apellido}`}
+                              </p>
                             )}
                             {partido.estado && (
                               <p className={`text-xs font-medium ${partido.estado === 'Finalizado' ? theme.fixtureMatchStatusFinalized : partido.estado === 'En Curso' ? theme.fixtureMatchStatusInProgress : theme.fixtureMatchStatusOther}`}>
