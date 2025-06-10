@@ -209,30 +209,33 @@ function App() {
       )}
 
       {/* Footer */}
-      <footer className={`text-center text-sm mt-8 p-6 rounded-xl shadow-lg border-t-2 ${theme.footerBg} ${theme.footerBorder}`}>
-  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-    {/* Texto principal */}
-    <div className={`flex items-center gap-2 ${theme.footerTextColor}`}>
-      <span>© {new Date().getFullYear()} PÁDEL MANAGER PRO</span>
-      <span className="hidden sm:inline">•</span>
-      <span className="font-semibold">¡DOMINA LA CANCHA!</span>
+      <footer className={`text-center text-sm mt-8 p-4 sm:p-6 rounded-xl shadow-lg border-t-2 ${theme.footerBg} ${theme.footerBorder}`}>
+  <div className="flex flex-col items-center justify-center gap-3 sm:gap-4">
+    {/* Contenedor principal para desktop */}
+    <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 w-full">
+      {/* Texto principal */}
+      <div className={`flex flex-col sm:flex-row items-center gap-1 sm:gap-2 ${theme.footerTextColor}`}>
+        <span className="text-xs sm:text-sm">© {new Date().getFullYear()} PÁDEL MANAGER PRO</span>
+        <span className="hidden sm:inline">•</span>
+        <span className="font-semibold text-sm sm:text-base">¡DOMINA LA CANCHA!</span>
+      </div>
+      
+      {/* Logo Morton */}
+      <div className="flex items-center mt-2 sm:mt-0">
+        <img 
+          src={Morton} 
+          width="32" 
+          height="32" 
+          alt="Morton Logo" 
+          className="sm:w-10 sm:h-10 rounded-md shadow-sm hover:scale-110 transition-transform duration-200"
+        />
+      </div>
     </div>
     
-    {/* Logo Morton */}
-    <div className="flex items-center">
-      <img 
-        src={Morton} 
-        width="40" 
-        height="40" 
-        alt="Morton Logo" 
-        className="rounded-md shadow-sm hover:scale-110 transition-transform duration-200"
-      />
+    {/* Línea adicional */}
+    <div className={`text-xs ${theme.footerTextColor} opacity-75 px-2`}>
+      Desarrollado con ❤️ para la comunidad del pádel
     </div>
-  </div>
-  
-  {/* Línea adicional opcional para más información */}
-  <div className={`mt-2 text-xs ${theme.footerTextColor} opacity-75`}>
-    Desarrollado con ❤️ para la comunidad del pádel
   </div>
 </footer>
     </div>

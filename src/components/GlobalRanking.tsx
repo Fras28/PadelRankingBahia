@@ -23,9 +23,9 @@ const GlobalRanking: React.FC<GlobalRankingProps> = ({
           <table className={`min-w-full ${theme.mainContentBg} rounded-lg shadow-sm`}>
             <thead className={`${theme.tableHeaderBg}`}>
               <tr>
-                <th className={`py-3 px-4 text-left text-sm font-bold ${theme.tableHeaderTextColor} rounded-tl-lg uppercase`}>Posición Global</th>
+                <th className={`py-3 px-4 text-left text-sm font-bold ${theme.tableHeaderTextColor} rounded-tl-lg uppercase`}>Ranking</th>
                 <th className={`py-3 px-4 text-left text-sm font-bold ${theme.tableHeaderTextColor} uppercase`}>Jugador</th>
-                <th className={`py-3 px-4 text-left text-sm font-bold ${theme.tableHeaderTextColor} rounded-tr-lg uppercase`}>Puntos Globales</th>
+                <th className={`py-3 px-4 text-left text-sm font-bold ${theme.tableHeaderTextColor} rounded-tr-lg uppercase`}>Puntos</th>
               </tr>
             </thead>
             <tbody>

@@ -21,13 +21,13 @@ const InternalRanking: React.FC<InternalRankingProps> = ({
       {clubCategoryRankings.length > 0 ? (
         <div className="space-y-8">
           {clubCategoryRankings.map(ranking => (
-            <div key={ranking.categoria.nombre} className={`${theme.tournamentCardBg} p-6 rounded-lg shadow-xl border ${theme.tournamentCardBorder}`}>
+            <div key={ranking.categoria.nombre} className={`${theme.tournamentCardBg}  rounded-lg shadow-xl border ${theme.tournamentCardBorder}`}>
               <h4 className="text-xl font-bold mb-4" style={{ color: theme.tournamentNameColor }}>CATEGORÍA: {ranking.categoria.nombre.toUpperCase()}</h4>
               <div className="overflow-x-auto">
                 <table className={`min-w-full ${theme.mainContentBg} rounded-lg shadow-sm`}>
                   <thead className={`${theme.tableHeaderBg}`}>
                     <tr>
-                      <th className={`py-3 px-4 text-left text-sm font-bold ${theme.tableHeaderTextColor} rounded-tl-lg uppercase`}>Posición</th>
+                      <th className={`py-3 px-4 text-left text-sm font-bold ${theme.tableHeaderTextColor} rounded-tl-lg uppercase`}>Ranking</th>
                       <th className={`py-3 px-4 text-left text-sm font-bold ${theme.tableHeaderTextColor} uppercase`}>Jugador</th>
                       <th className={`py-3 px-4 text-left text-sm font-bold ${theme.tableHeaderTextColor} rounded-tr-lg uppercase`}>Puntos</th>
                     </tr>
