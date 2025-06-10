@@ -47,8 +47,8 @@ export const mockPlayersData: IJugador[] = [
   { id: 2, nombre: 'Ana', apellido: 'García', rankingGeneral: 4, estadisticas: { partidosJugados: 220, partidosGanados: 150, torneosJugados: 20, torneosGanados: 5 }, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 1, nombre: '1ra' }},
   { id: 3, nombre: 'Carlos', apellido: 'Ruiz', rankingGeneral: 5, estadisticas: { partidosJugados: 180, partidosGanados: 100, torneosJugados: 18, torneosGanados: 2 }, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 2, nombre: '2da' }},
   { id: 4, nombre: 'Marta', apellido: 'López', rankingGeneral: 8, estadisticas: { partidosJugados: 150, partidosGanados: 80, torneosJugados: 12, torneosGanados: 1 }, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 2, nombre: '2da' }},
-  { id: 5, nombre: 'Franco', apellido: 'EquipoUno', rankingGeneral: 10, estadisticas: { partidosJugados: 70, partidosGanados: 50, torneosJugados: 8, torneosGanados: 0 }, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 3, nombre: '3ra' }},
-  { id: 6, nombre: 'Lucas', apellido: 'EquipoTres', rankingGeneral: 15, estadisticas: { partidosJugados: 60, partidosGanados: 40, torneosJugados: 7, torneosGanados: 0 }, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 3, nombre: '3ra' }},
+  { id: 5, nombre: 'Franco', apellido: 'Mendoza', rankingGeneral: 10, estadisticas: { partidosJugados: 70, partidosGanados: 50, torneosJugados: 8, torneosGanados: 0 }, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 3, nombre: '3ra' }},
+  { id: 6, nombre: 'Lucas', apellido: 'Dominguez', rankingGeneral: 15, estadisticas: { partidosJugados: 60, partidosGanados: 40, torneosJugados: 7, torneosGanados: 0 }, club: { id: 1, nombre: 'Padel X3', logo: mockClubs[0].logo }, categoriaPrincipal: { id: 3, nombre: '3ra' }},
   // Players for Club 2 (Osaka Padel)
   { id: 7, nombre: 'Pedro', apellido: 'Martínez', rankingGeneral: 1, estadisticas: { partidosJugados: 300, partidosGanados: 250, torneosJugados: 30, torneosGanados: 10 }, club: { id: 2, nombre: 'Osaka Padel', logo: mockClubs[1].logo }, categoriaPrincipal: { id: 4, nombre: '1ra' }},
   { id: 8, nombre: 'Laura', apellido: 'Fernández', rankingGeneral: 3, estadisticas: { partidosJugados: 280, partidosGanados: 200, torneosJugados: 28, torneosGanados: 7 }, club: { id: 2, nombre: 'Osaka Padel', logo: mockClubs[1].logo }, categoriaPrincipal: { id: 4, nombre: '1ra' }},
@@ -77,32 +77,39 @@ const pair3B: IPareja = { id: 6, jugador1: mockPlayersData[14], jugador2: mockPl
 const pair4A: IPareja = { id: 7, jugador1: mockPlayersData[16], jugador2: mockPlayersData[17] };
 const pair4B: IPareja = { id: 8, jugador1: mockPlayersData[18], jugador2: mockPlayersData[19] };
 
-// Generic pairs for larger fixtures
-const genericPair1: IPareja = { id: 20, jugador1: { nombre: 'Equipo', apellido: '1' }, jugador2: { nombre: 'Jugador', apellido: 'X' }};
-const genericPair2: IPareja = { id: 21, jugador1: { nombre: 'Equipo', apellido: '2' }, jugador2: { nombre: 'Jugador', apellido: 'Y' }};
-const genericPair3: IPareja = { id: 22, jugador1: { nombre: 'Equipo', apellido: '3' }, jugador2: { nombre: 'Jugador', apellido: 'Z' }};
-const genericPair4: IPareja = { id: 23, jugador1: { nombre: 'Equipo', apellido: '4' }, jugador2: { nombre: 'Jugador', apellido: 'W' }};
-const genericPair5: IPareja = { id: 24, jugador1: { nombre: 'Equipo', apellido: '5' }, jugador2: { nombre: 'Jugador', apellido: '1ra' }};
-const genericPair6: IPareja = { id: 25, jugador1: { nombre: 'Equipo', apellido: '6' }, jugador2: { nombre: 'Jugador', apellido: 'B' }};
-const genericPair7: IPareja = { id: 26, jugador1: { nombre: 'Equipo', apellido: '7' }, jugador2: { nombre: 'Jugador', apellido: 'C' }};
-const genericPair8: IPareja = { id: 27, jugador1: { nombre: 'Equipo', apellido: '8' }, jugador2: { nombre: 'Jugador', apellido: 'D' }};
-const genericPair9: IPareja = { id: 28, jugador1: { nombre: 'Equipo', apellido: '9' }, jugador2: { nombre: 'Jugador', apellido: 'E' }};
-const genericPair10: IPareja = { id: 29, jugador1: { nombre: 'Equipo', apellido: '10' }, jugador2: { nombre: 'Jugador', apellido: 'F' }};
-const genericPair11: IPareja = { id: 30, jugador1: { nombre: 'Equipo', apellido: '11' }, jugador2: { nombre: 'Jugador', apellido: 'G' }};
-const genericPair12: IPareja = { id: 31, jugador1: { nombre: 'Equipo', apellido: '12' }, jugador2: { nombre: 'Jugador', apellido: 'H' }};
-const genericPair13: IPareja = { id: 32, jugador1: { nombre: 'Equipo', apellido: '13' }, jugador2: { nombre: 'Jugador', apellido: 'I' }};
-const genericPair14: IPareja = { id: 33, jugador1: { nombre: 'Equipo', apellido: '14' }, jugador2: { nombre: 'Jugador', apellido: 'J' }};
-const genericPair15: IPareja = { id: 34, jugador1: { nombre: 'Equipo', apellido: '15' }, jugador2: { nombre: 'Jugador', apellido: 'K' }};
-const genericPair16: IPareja = { id: 35, jugador1: { nombre: 'Equipo', apellido: '16' }, jugador2: { nombre: 'Jugador', apellido: 'L' }};
-const genericPair17: IPareja = { id: 36, jugador1: { nombre: 'Equipo', apellido: '17' }, jugador2: { nombre: 'Jugador', apellido: 'M' }};
-const genericPair18: IPareja = { id: 37, jugador1: { nombre: 'Equipo', apellido: '18' }, jugador2: { nombre: 'Jugador', apellido: 'N' }};
-const genericPair19: IPareja = { id: 38, jugador1: { nombre: 'Equipo', apellido: '19' }, jugador2: { nombre: 'Jugador', apellido: 'O' }};
-const genericPair20: IPareja = { id: 39, jugador1: { nombre: 'Equipo', apellido: '20' }, jugador2: { nombre: 'Jugador', apellido: 'P' }};
-const genericPair21: IPareja = { id: 40, jugador1: { nombre: 'Equipo', apellido: '21' }, jugador2: { nombre: 'Jugador', apellido: 'Q' }};
-const genericPair22: IPareja = { id: 41, jugador1: { nombre: 'Equipo', apellido: '22' }, jugador2: { nombre: 'Jugador', apellido: 'R' }};
-const genericPair23: IPareja = { id: 42, jugador1: { nombre: 'Equipo', apellido: '23' }, jugador2: { nombre: 'Jugador', apellido: 'S' }};
-const genericPair24: IPareja = { id: 43, jugador1: { nombre: 'Equipo', apellido: '24' }, jugador2: { nombre: 'Jugador', apellido: 'T' }};
-const genericPair25: IPareja = { id: 44, jugador1: { nombre: 'Equipo', apellido: '25' }, jugador2: { nombre: 'Jugador', apellido: 'U' }};
+// Parejas adicionales con nombres reales
+const genericPair1: IPareja = { id: 20, jugador1: { nombre: 'Sebastián', apellido: 'Torres' }, jugador2: { nombre: 'Matías', apellido: 'Aguilar' }};
+const genericPair2: IPareja = { id: 21, jugador1: { nombre: 'Camila', apellido: 'Vega' }, jugador2: { nombre: 'Isabella', apellido: 'Morales' }};
+const genericPair3: IPareja = { id: 22, jugador1: { nombre: 'Nicolás', apellido: 'Jiménez' }, jugador2: { nombre: 'Tomás', apellido: 'Herrera' }};
+const genericPair4: IPareja = { id: 23, jugador1: { nombre: 'Valentina', apellido: 'Ramos' }, jugador2: { nombre: 'Emilia', apellido: 'Delgado' }};
+const genericPair5: IPareja = { id: 24, jugador1: { nombre: 'Alejandro', apellido: 'Mendoza' }, jugador2: { nombre: 'Gabriel', apellido: 'Ortega' }};
+const genericPair6: IPareja = { id: 25, jugador1: { nombre: 'Sophie', apellido: 'Dubois' }, jugador2: { nombre: 'Antoine', apellido: 'Bernard' }};
+const genericPair7: IPareja = { id: 26, jugador1: { nombre: 'Marco', apellido: 'Rossi' }, jugador2: { nombre: 'Giulia', apellido: 'Ferrari' }};
+const genericPair8: IPareja = { id: 27, jugador1: { nombre: 'João', apellido: 'Silva' }, jugador2: { nombre: 'Ana', apellido: 'Santos' }};
+const genericPair9: IPareja = { id: 28, jugador1: { nombre: 'Emma', apellido: 'Johnson' }, jugador2: { nombre: 'Liam', apellido: 'Williams' }};
+const genericPair10: IPareja = { id: 29, jugador1: { nombre: 'Hans', apellido: 'Müller' }, jugador2: { nombre: 'Greta', apellido: 'Schmidt' }};
+const genericPair11: IPareja = { id: 30, jugador1: { nombre: 'Yuki', apellido: 'Tanaka' }, jugador2: { nombre: 'Hiroshi', apellido: 'Yamamoto' }};
+const genericPair12: IPareja = { id: 31, jugador1: { nombre: 'Lars', apellido: 'Andersen' }, jugador2: { nombre: 'Astrid', apellido: 'Nielsen' }};
+const genericPair13: IPareja = { id: 32, jugador1: { nombre: 'Raj', apellido: 'Patel' }, jugador2: { nombre: 'Priya', apellido: 'Sharma' }};
+const genericPair14: IPareja = { id: 33, jugador1: { nombre: 'Olga', apellido: 'Petrov' }, jugador2: { nombre: 'Dimitri', apellido: 'Volkov' }};
+const genericPair15: IPareja = { id: 34, jugador1: { nombre: 'Chen', apellido: 'Wei' }, jugador2: { nombre: 'Li', apellido: 'Ming' }};
+const genericPair16: IPareja = { id: 35, jugador1: { nombre: 'Ahmed', apellido: 'Hassan' }, jugador2: { nombre: 'Fatima', apellido: 'Ali' }};
+const genericPair17: IPareja = { id: 36, jugador1: { nombre: 'Santiago', apellido: 'Tanoni' }, jugador2: { nombre: 'Maximiliano', apellido: 'Figueras' }};
+const genericPair18: IPareja = { id: 37, jugador1: { nombre: 'Bianca', apellido: 'Kovač' }, jugador2: { nombre: 'Stefan', apellido: 'Novák' }};
+const genericPair19: IPareja = { id: 38, jugador1: { nombre: 'Ingrid', apellido: 'Larsson' }, jugador2: { nombre: 'Erik', apellido: 'Johansson' }};
+const genericPair20: IPareja = { id: 39, jugador1: { nombre: 'Zara', apellido: 'Al-Rashid' }, jugador2: { nombre: 'Omar', apellido: 'El-Masri' }};
+const genericPair21: IPareja = { id: 40, jugador1: { nombre: 'Kenji', apellido: 'Nakamura' }, jugador2: { nombre: 'Sakura', apellido: 'Watanabe' }};
+const genericPair22: IPareja = { id: 41, jugador1: { nombre: 'Vladimir', apellido: 'Kozlov' }, jugador2: { nombre: 'Anastasia', apellido: 'Romanova' }};
+const genericPair23: IPareja = { id: 42, jugador1: { nombre: 'Finn', apellido: 'O\'Connor' }, jugador2: { nombre: 'Siobhan', apellido: 'Murphy' }};
+const genericPair24: IPareja = { id: 43, jugador1: { nombre: 'Ravi', apellido: 'Gupta' }, jugador2: { nombre: 'Meera', apellido: 'Kapoor' }};
+const genericPair25: IPareja = { id: 44, jugador1: { nombre: 'Thiago', apellido: 'Oliveira' }, jugador2: { nombre: 'Beatriz', apellido: 'Costa' }};
+
+// Parejas adicionales para ampliar la base de datos
+const genericPair26: IPareja = { id: 45, jugador1: { nombre: 'Cristopher', apellido: 'Anderson' }, jugador2: { nombre: 'Madison', apellido: 'Taylor' }};
+const genericPair27: IPareja = { id: 46, jugador1: { nombre: 'Felipe', apellido: 'Ramírez' }, jugador2: { nombre: 'Catalina', apellido: 'Guerrero' }};
+const genericPair28: IPareja = { id: 47, jugador1: { nombre: 'Viktor', apellido: 'Nordström' }, jugador2: { nombre: 'Maja', apellido: 'Lindberg' }};
+const genericPair29: IPareja = { id: 48, jugador1: { nombre: 'Antonio', apellido: 'Greco' }, jugador2: { nombre: 'Francesca', apellido: 'Romano' }};
+const genericPair30: IPareja = { id: 49, jugador1: { nombre: 'Benjamin', apellido: 'Clarke' }, jugador2: { nombre: 'Charlotte', apellido: 'Davis' }};
 
 
 // Datos de torneos de ejemplo, organizados por ID de club
