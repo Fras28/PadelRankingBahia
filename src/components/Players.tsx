@@ -45,7 +45,7 @@ const Players: React.FC<PlayersProps> = ({
       <h3 className="text-2xl font-bold mb-6 border-b-2 pb-2" style={{ color: theme.sectionTitleColor, borderColor: theme.sectionTitleBorder }}>PERFILES DE JUGADORES</h3>
       <div className="flex flex-col sm:flex-row gap-4 mb-6">
         <div className="flex items-center gap-2">
-          <label htmlFor="player-club-filter" className={`text-lg font-semibold ${theme.sponsorTitleColor}`}>Filtrar por Arena:</label>
+          <label htmlFor="player-club-filter" className={`text-lg font-semibold ${theme.sponsorTitleColor}`}>Filtrar por Club:</label>
           <select
             id="player-club-filter"
             className={`p-2 border ${theme.clubSelectBorder} rounded-lg shadow-md focus:ring-amber-400 focus:border-amber-400 ${theme.clubSelectBg} ${theme.clubSelectText} transition-all duration-200`}

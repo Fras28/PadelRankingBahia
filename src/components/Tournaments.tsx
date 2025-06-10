@@ -129,7 +129,7 @@ const Tournaments: React.FC<TournamentsProps> = ({
           })}
         </div>
       ) : (
-        <p className={`${theme.tournamentTextColor} text-center py-8`}>¡NO HAY CAMPEONATOS DISPONIBLES EN ESTA ARENA!</p>
+        <p className={`${theme.tournamentTextColor} text-center py-8`}>¡NO HAY CAMPEONATOS DISPONIBLES EN ESTE CLUB!</p>
       )}
     </section>
   );

@@ -5,6 +5,7 @@ import React, { useState, useMemo } from 'react';
 import { IClub, ITorneo, IJugador, ThemeName } from './components/general/interfaces';
 import { mockClubs, mockTournaments, mockCategoryRankings, mockGlobalRanking, mockSponsors, mockPlayersData } from './components/general/mockData';
 import { themes } from './components/general/themes';
+import Morton from './assets/Logos/MORTON.png'
 
 // Import components
 import PlayerStatisticsCard from './components/PlayerStatisticsCard';
@@ -59,7 +60,7 @@ function App() {
           PÁDEL MANAGER PRO
         </h1>
         <div className="flex items-center gap-2">
-          <label htmlFor="club-select" className={`text-lg font-semibold ${theme.sponsorTitleColor}`}>Arena:</label>
+          <label htmlFor="club-select" className={`text-lg font-semibold ${theme.sponsorTitleColor}`}>Club:</label>
           <select
             id="club-select"
             className={`p-2 border ${theme.clubSelectBorder} rounded-lg shadow-md focus:ring-amber-400 focus:border-amber-400 ${theme.clubSelectBg} ${theme.clubSelectText} transition-all duration-200`}
@@ -208,9 +209,32 @@ function App() {
       )}
 
       {/* Footer */}
-      <footer className={`text-center text-sm mt-8 p-4 rounded-xl shadow-lg border-t-2 ${theme.footerBg} ${theme.footerBorder} ${theme.footerTextColor}`}>
-        © {new Date().getFullYear()} PÁDEL MANAGER PRO. ¡DOMINA LA CANCHA!
-      </footer>
+      <footer className={`text-center text-sm mt-8 p-6 rounded-xl shadow-lg border-t-2 ${theme.footerBg} ${theme.footerBorder}`}>
+  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+    {/* Texto principal */}
+    <div className={`flex items-center gap-2 ${theme.footerTextColor}`}>
+      <span>© {new Date().getFullYear()} PÁDEL MANAGER PRO</span>
+      <span className="hidden sm:inline">•</span>
+      <span className="font-semibold">¡DOMINA LA CANCHA!</span>
+    </div>
+    
+    {/* Logo Morton */}
+    <div className="flex items-center">
+      <img 
+        src={Morton} 
+        width="40" 
+        height="40" 
+        alt="Morton Logo" 
+        className="rounded-md shadow-sm hover:scale-110 transition-transform duration-200"
+      />
+    </div>
+  </div>
+  
+  {/* Línea adicional opcional para más información */}
+  <div className={`mt-2 text-xs ${theme.footerTextColor} opacity-75`}>
+    Desarrollado con ❤️ para la comunidad del pádel
+  </div>
+</footer>
     </div>
   );
 }
