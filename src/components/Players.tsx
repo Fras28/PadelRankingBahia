@@ -74,9 +74,8 @@ const Players: React.FC<PlayersProps> = ({
       {filteredAndSortedPlayers.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredAndSortedPlayers.map(player => (
-            // PlayerStatisticsCard now accepts an onClick handler
             <div key={player.id} onClick={() => handlePlayerClick(player)}>
-              <PlayerStatisticsCard player={player} /> {/* No rank passed here, as it's a general list */}
+              <PlayerStatisticsCard player={player} />
             </div>
           ))}
         </div>

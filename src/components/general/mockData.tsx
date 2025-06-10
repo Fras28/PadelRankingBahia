@@ -7,6 +7,8 @@ import Aonken from '../../assets/Aonken.png';
 import Codimat from '../../assets/CODIMAT.png';
 import Promar from '../../assets/promar.png';
 import Bull from '../../assets/bullpadel.png';
+import PadelX3 from '../../assets/Logos/X3.png';
+import Osaka from '../../assets/Logos/OSAKA.png';
 
 import {
   IClub,
@@ -24,7 +26,7 @@ export const mockClubs: IClub[] = [
     id: 1,
     nombre: 'Padel X3',
     direccion: 'Calle Falsa 123, Ciudad',
-    logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrtIwvV6zx-Ey8tdb_opAEJruVLj5JedRDhg&s',
+    logo: PadelX3,
     emailContacto: 'info@padelcentral.com',
     telefono: '1122334455'
   },
@@ -32,7 +34,7 @@ export const mockClubs: IClub[] = [
     id: 2,
     nombre: 'Osaka Padel',
     direccion: 'Avenida Siempre Viva 742, Pueblo',
-    logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeniK7L1PW3EjtLetpqz6LFkqd9GfdLXmp2A&s',
+    logo: Osaka,
     emailContacto: 'contacto@raquetaexpress.com',
     telefono: '9988776655'
   },

@@ -14,6 +14,12 @@ import InternalRanking from './components/InternalRanking';
 import GlobalRanking from './components/GlobalRanking';
 import Players from './components/Players';
 
+// Mapeo de Club ID a nombre de tema
+const clubThemeMap: { [key: number]: ThemeName } = {
+  1: 'middle',    // Padel X3 -> middle theme
+  2: 'impactful', // Osaka Padel -> impactful theme
+};
+
 function App() {
   // State variables for application logic
   const [selectedClubId, setSelectedClubId] = useState<number | null>(mockClubs[0].id);
@@ -21,15 +27,16 @@ function App() {
   const [selectedTournamentForFixture, setSelectedTournamentForFixture] = useState<ITorneo | null>(null);
   const [selectedPlayerForStats, setSelectedPlayerForStats] = useState<IJugador | null>(null);
   const [currentPlayerRankForModal, setCurrentPlayerRankForModal] = useState<number | undefined>();
-  const [currentTheme, setCurrentTheme] = useState<ThemeName>('middle');
-  const [showThemeSelector, setShowThemeSelector] = useState<boolean>(false);
 
-  // Derived state and constants
+  // El tema se deriva automáticamente del club seleccionado
+  const currentThemeName = selectedClubId ? (clubThemeMap[selectedClubId] || 'classic') : 'classic';
+  const theme = themes[currentThemeName];
+
+  // Derived state
   const selectedClub = mockClubs.find(club => club.id === selectedClubId);
   const clubTournaments = selectedClubId ? mockTournaments[selectedClubId] || [] : [];
   const clubCategoryRankings = selectedClubId ? mockCategoryRankings[selectedClubId] || [] : [];
   const roundOrder = ['treintaidosavos', 'dieciseisavos', 'octavos', 'cuartos', 'semifinales', 'final'];
-  const theme = themes[currentTheme];
 
   // Helper function to get club logo
   const getClubLogo = (clubId: number | undefined) => {
@@ -46,30 +53,6 @@ function App() {
 
   return (
     <div className={`min-h-screen font-sans p-4 sm:p-6 lg:p-8 transition-colors duration-500 ${theme.bodyBg} ${theme.tableTextColor}`}>
-      {/* Theme Selector */}
-      <div className="relative flex justify-center w-full mb-6 z-20">
-        <button
-          className={`p-2 rounded-full transition-all duration-300 ${theme.tabInactiveBg} hover:bg-opacity-80 flex items-center justify-center`}
-          onClick={() => setShowThemeSelector(!showThemeSelector)}
-          aria-label="Seleccionar estilo"
-        >
-          <span className={`text-xl font-bold ${theme.tabInactiveText} transform transition-transform duration-300 ${showThemeSelector ? 'rotate-180' : 'rotate-0'}`}>&#9660;</span>
-        </button>
-        {showThemeSelector && (
-          <div className={`absolute top-full mt-2 w-48 ${theme.navBg} rounded-md shadow-lg py-1 z-10 origin-top animate-slide-down`}>
-            {(['classic', 'middle', 'impactful'] as const).map(themeName => (
-              <button
-                key={themeName}
-                className={`block w-full text-left px-4 py-2 text-sm font-semibold ${currentTheme === themeName ? `${theme.tabActiveBg} ${theme.tabActiveText}` : `${theme.tabInactiveText} hover:bg-gray-100 dark:hover:bg-gray-700`} transition-colors duration-200`}
-                onClick={() => { setCurrentTheme(themeName); setShowThemeSelector(false); }}
-              >
-                {themeName.charAt(0).toUpperCase() + themeName.slice(1)}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-
       {/* Header */}
       <header className={`${theme.headerBg} shadow-2xl rounded-xl p-4 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-b-4 ${theme.headerBorder}`}>
         <h1 className={`text-3xl sm:text-4xl font-extrabold ${theme.mainTitleColor} drop-shadow-lg`}>
@@ -82,7 +65,8 @@ function App() {
             className={`p-2 border ${theme.clubSelectBorder} rounded-lg shadow-md focus:ring-amber-400 focus:border-amber-400 ${theme.clubSelectBg} ${theme.clubSelectText} transition-all duration-200`}
             value={selectedClubId || ''}
             onChange={(e) => {
-              setSelectedClubId(Number(e.target.value));
+              const clubId = Number(e.target.value);
+              setSelectedClubId(clubId);
               setSelectedTournamentForFixture(null);
               setSelectedPlayerForStats(null);
             }}
@@ -96,10 +80,10 @@ function App() {
 
       {/* Sponsors Section */}
       <section className={`${theme.sponsorSectionBg} shadow-lg rounded-xl p-4 mb-8 border-b-2 ${theme.sponsorSectionBorder}`}>
-        <h2 className={`text-xl font-bold mb-4 text-center ${currentTheme === 'impactful' ? theme.sponsorTitleColor : 'text-gray-700'}`}>ALIADOS ESTRATÉGICOS</h2>
+        <h2 className={`text-xl font-bold mb-4 text-center ${currentThemeName === 'impactful' ? theme.sponsorTitleColor : 'text-gray-700'}`}>ALIADOS ESTRATÉGICOS</h2>
         <div className="flex flex-wrap justify-center items-center gap-6">
           {mockSponsors.map(sponsor => (
-            <a key={sponsor.id} href={sponsor.link} target="_blank" rel="noopener noreferrer" className="block transform transition-transform duration-200 hover:scale-110">
+            <a key={sponsor.id} href={sponsor.link} target="_blank" rel="noopener noreferrer" className="block transform transition-transform duration-200 hover:scale-110 bg-slate-200 rounded-lg">
               <img
                 src={sponsor.logoUrl}
                 alt={sponsor.nombre}
@@ -114,7 +98,7 @@ function App() {
       {/* Selected Club Info */}
       {selectedClub && (
         <div className={`${theme.clubInfoBg} shadow-lg rounded-xl p-6 mb-8 flex flex-col sm:flex-row items-center gap-6 border-b-2 ${theme.clubInfoBorder}`}>
-          <img src={selectedClub.logo} alt={`Logo de ${selectedClub.nombre}`} className={`w-20 h-20 rounded-full border-4 ${theme.clubLogoBorder} object-cover shadow-md`} onError={(e) => { e.currentTarget.src = `https://placehold.co/80x80/cccccc/333333?text=${selectedClub.nombre.split(' ').map(n=>n[0]).join('').substring(0,3)}`}} />
+          <img src={selectedClub.logo} alt={`Logo de ${selectedClub.nombre}`} className={`w-26 h-20 rounded-full border-4 ${theme.clubLogoBorder} object-cover shadow-md`} onError={(e) => { e.currentTarget.src = `https://placehold.co/80x80/cccccc/333333?text=${selectedClub.nombre.split(' ').map(n=>n[0]).join('').substring(0,3)}`}} />
           <div>
             <h2 className={`text-2xl font-bold ${theme.clubNameColor}`}>{selectedClub.nombre}</h2>
             <p className={`${theme.clubInfoTextColor}`}>{selectedClub.direccion}</p>
@@ -215,9 +199,9 @@ function App() {
       {/* Player Statistics Modal */}
       {selectedPlayerForStats && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 animate-fade-in" onClick={() => setSelectedPlayerForStats(null)}>
-          <div className={`${theme.modalBg} rounded-xl shadow-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto relative border-4 ${theme.modalBorder} transform scale-95 animate-scale-in`} onClick={(e) => e.stopPropagation()}>
-            <button className={`absolute top-4 right-4 ${theme.modalCloseButtonColor} hover:text-opacity-70 text-3xl font-bold transition-transform duration-200 hover:rotate-90`} onClick={() => setSelectedPlayerForStats(null)}>&times;</button>
-            <h3 className={`text-2xl font-bold mb-4 border-b-2 ${theme.modalTitleBorder} pb-2`} style={{ color: theme.modalTitleColor }}>ESTADÍSTICAS DE {selectedPlayerForStats.nombre.toUpperCase()} {selectedPlayerForStats.apellido.toUpperCase()}</h3>
+          {/* El fondo del modal ahora es transparente para que la tarjeta de jugador sea el elemento principal */}
+          <div className="bg-transparent rounded-xl w-full max-w-lg" onClick={(e) => e.stopPropagation()}>
+            <button className="absolute top-4 right-4 text-white hover:text-opacity-70 text-4xl font-bold transition-transform duration-200 hover:rotate-90 z-10" onClick={() => setSelectedPlayerForStats(null)}>&times;</button>
             <PlayerStatisticsCard player={selectedPlayerForStats} rankInCategory={currentPlayerRankForModal} />
           </div>
         </div>
